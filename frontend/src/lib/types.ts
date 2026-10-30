@@ -17,6 +17,14 @@ export interface Expense {
   created_at: string;
 }
 
+export interface ExpenseCreatedResponse {
+  id: number;
+  title: string;
+  amount: number;
+  category_id: number;
+  created_at: string;
+}
+
 export interface ExpenseCreatePayload {
   title: string;
   amount: number;
@@ -28,4 +36,3 @@ export interface Summary {
   count: number;
   average: number;
 }
-

@@ -1,0 +1,125 @@
+"use client";
+
+import React from "react";
+import { Expense } from "@/lib/types";
+import { ListOrdered, Calendar, Tag, DollarSign, Inbox } from "lucide-react";
+
+interface ExpenseListProps {
+  expenses: Expense[];
+  loading: boolean;
+}
+
+export function ExpenseList({ expenses, loading }: ExpenseListProps) {
+  const formatCurrency = (val: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    }).format(val);
+  };
+
+  const formatDate = (dateStr: string) => {
+    try {
+      const date = new Date(dateStr);
+      return new Intl.DateTimeFormat("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }).format(date);
+    } catch {
+      return dateStr;
+    }
+  };
+
+  return (
+    <div className="neo-card p-5 sm:p-6 bg-white">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-4 border-b-3 border-black gap-2">
+        <div className="flex items-center gap-2">
+          <div className="p-1.5 bg-[#FEF08A] border-2 border-black rounded shadow-neobrutal-sm">
+            <ListOrdered className="w-5 h-5 text-black stroke-[2.5]" />
+          </div>
+          <div>
+            <h2 className="text-lg font-black text-black tracking-tight">Expense Ledger</h2>
+            <p className="text-xs font-bold text-neutral-600">
+              Audit log with category join & timestamps
+            </p>
+          </div>
+        </div>
+        <div className="text-xs font-black bg-black text-white px-3 py-1 rounded border-2 border-black self-start sm:self-auto">
+          {expenses.length} {expenses.length === 1 ? "RECORD" : "RECORDS"}
+        </div>
+      </div>
+
+      {/* Content */}
+      {loading ? (
+        <div className="py-12 text-center">
+          <div className="inline-block p-4 bg-[#FAF9F6] border-2 border-black rounded-lg shadow-neobrutal-sm animate-pulse">
+            <p className="text-sm font-black text-black">Loading expenses from SQLite...</p>
+          </div>
+        </div>
+      ) : expenses.length === 0 ? (
+        <div className="py-12 px-4 text-center border-2 border-dashed border-neutral-400 rounded-xl bg-[#FAF9F6]">
+          <div className="w-14 h-14 mx-auto mb-3 bg-[#E9D5FF] border-2 border-black rounded-xl shadow-neobrutal flex items-center justify-center">
+            <Inbox className="w-7 h-7 text-black stroke-[2.5]" />
+          </div>
+          <h3 className="text-base font-black text-black mb-1">No Transactions Recorded Yet</h3>
+          <p className="text-xs font-bold text-neutral-600 max-w-sm mx-auto">
+            Your expense database is currently empty. Use the Record Expense form above to log your first transaction!
+          </p>
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b-2 border-black bg-[#FAF9F6] text-[11px] font-black uppercase tracking-wider text-black">
+                <th className="py-2.5 px-3">Date & Time</th>
+                <th className="py-2.5 px-3">Title</th>
+                <th className="py-2.5 px-3">Category</th>
+                <th className="py-2.5 px-3 text-right">Amount</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y-2 divide-neutral-200 text-sm">
+              {expenses.map((expense) => (
+                <tr
+                  key={expense.id}
+                  className="hover:bg-[#FAF9F6] transition-colors"
+                >
+                  {/* Date */}
+                  <td className="py-3 px-3 whitespace-nowrap text-xs font-semibold text-neutral-700">
+                    <span className="inline-flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5 text-neutral-500 stroke-[2.5]" />
+                      {formatDate(expense.created_at)}
+                    </span>
+                  </td>
+
+                  {/* Title */}
+                  <td className="py-3 px-3 font-bold text-black max-w-xs truncate">
+                    {expense.title}
+                  </td>
+
+                  {/* Category Pill */}
+                  <td className="py-3 px-3 whitespace-nowrap">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-[#FAF9F6] border-2 border-black rounded shadow-neobrutal-sm text-xs font-black text-black">
+                      <Tag className="w-3 h-3 stroke-[3] text-black" />
+                      {expense.category}
+                    </span>
+                  </td>
+
+                  {/* Amount */}
+                  <td className="py-3 px-3 text-right whitespace-nowrap">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-[#BBF7D0] border-2 border-black rounded shadow-neobrutal-sm font-black text-black">
+                      {formatCurrency(expense.amount)}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
