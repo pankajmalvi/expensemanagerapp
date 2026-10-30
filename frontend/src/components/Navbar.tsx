@@ -1,90 +1,82 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { checkApiHealth } from "@/lib/api";
-import { Wallet, ExternalLink, Activity } from "lucide-react";
+import React from "react";
+import { Wallet, Plus, RefreshCw, Tag } from "lucide-react";
 
-export function Navbar() {
-  const [apiOnline, setApiOnline] = useState<boolean | null>(null);
+interface NavbarProps {
+  onRefresh?: () => Promise<void>;
+  isRefreshing?: boolean;
+}
 
-  useEffect(() => {
-    let mounted = true;
-    const check = async () => {
-      const isOnline = await checkApiHealth();
-      if (mounted) setApiOnline(isOnline);
-    };
-    check();
-    const interval = setInterval(check, 10000);
-    return () => {
-      mounted = false;
-      clearInterval(interval);
-    };
-  }, []);
+export function Navbar({ onRefresh, isRefreshing = false }: NavbarProps) {
+  const scrollTo = (elementId: string) => {
+    const el = document.getElementById(elementId);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+      const input = el.querySelector("input, select") as HTMLElement | null;
+      if (input) {
+        setTimeout(() => input.focus(), 300);
+      }
+    }
+  };
 
   return (
-    <header className="sticky top-0 z-40 bg-[#FAF9F6] border-b-4 border-black px-4 py-3 sm:px-8">
+    <header className="sticky top-0 z-40 bg-[#FAF9F6] border-b-[3px] border-black px-4 py-3 sm:px-8">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-        {/* Logo and Title */}
+        {/* Brand & Tagline */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-[#FFE043] border-3 border-black shadow-neobrutal-sm flex items-center justify-center rounded-lg">
-            <Wallet className="w-6 h-6 text-black stroke-[2.5]" />
+          <div className="w-10 h-10 bg-[#FEF08A] border-[3px] border-black shadow-[2px_2px_0px_0px_#000] flex items-center justify-center rounded-lg flex-shrink-0">
+            <Wallet className="w-5 h-5 text-black stroke-[2.5]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
               <span className="font-black text-xl tracking-tight text-black">
-                EXPENSE<span className="bg-[#4EFA94] px-1.5 py-0.5 ml-1 border-2 border-black rounded text-black shadow-neobrutal-sm">FLOW</span>
-              </span>
-              <span className="text-xs font-bold uppercase tracking-wider bg-black text-white px-2 py-0.5 rounded">
-                v1.0
+                EXPENSE<span className="bg-[#4EFA94] px-1.5 py-0.5 ml-1 border-2 border-black rounded text-black shadow-[2px_2px_0px_0px_#000]">FLOW</span>
               </span>
             </div>
-            <p className="text-xs font-semibold text-neutral-600 hidden sm:block">
-              FastAPI + Next.js + SQLite Relational Architecture
+            <p className="text-xs font-bold text-neutral-600 hidden sm:block">
+              Personal Expense & Category Manager
             </p>
           </div>
         </div>
 
-        {/* Status & Preview Links */}
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-bold">
-          {/* API Status Pill */}
-          <div
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border-2 border-black shadow-neobrutal-sm transition-colors ${
-              apiOnline === true
-                ? "bg-[#BBF7D0] text-neutral-900"
-                : apiOnline === false
-                ? "bg-[#FECDD3] text-neutral-900"
-                : "bg-neutral-200 text-neutral-600"
-            }`}
-            title="Realtime FastAPI Health Status"
+        {/* User-Centric Primary CTAs */}
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-black">
+          {/* Quick Add Category CTA */}
+          <button
+            type="button"
+            onClick={() => scrollTo("category-section")}
+            className="neo-btn bg-[#E9D5FF] hover:bg-purple-200 text-black px-3 py-1.5 text-xs"
+            title="Jump to Add Category"
           >
-            <Activity className="w-3.5 h-3.5 stroke-[2.5]" />
-            <span>
-              {apiOnline === true
-                ? "API CONNECTED (8000)"
-                : apiOnline === false
-                ? "API OFFLINE"
-                : "CHECKING API..."}
-            </span>
-          </div>
+            <Tag className="w-3.5 h-3.5 mr-1 stroke-[2.5]" />
+            <span>+ Category</span>
+          </button>
 
-          {/* Preview Link: Swagger API Docs */}
-          <a
-            href="http://localhost:8000/docs"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-neutral-100 border-2 border-black rounded shadow-neobrutal-sm text-neutral-900 hover:translate-x-[1px] hover:translate-y-[1px] transition-all"
+          {/* Quick Add Expense CTA */}
+          <button
+            type="button"
+            onClick={() => scrollTo("expense-form")}
+            className="neo-btn bg-[#4EFA94] hover:bg-emerald-300 text-black px-3.5 py-1.5 text-xs"
+            title="Jump to Record Expense"
           >
-            <span>Swagger Docs</span>
-            <ExternalLink className="w-3 h-3 stroke-[2.5]" />
-          </a>
+            <Plus className="w-3.5 h-3.5 mr-1 stroke-[3]" />
+            <span>+ New Expense</span>
+          </button>
 
-          {/* Preview Link: System Architecture */}
-          <a
-            href="#architecture"
-            className="flex items-center gap-1 px-2.5 py-1 bg-[#BAE6FD] hover:bg-sky-300 border-2 border-black rounded shadow-neobrutal-sm text-neutral-900 hover:translate-x-[1px] hover:translate-y-[1px] transition-all"
-          >
-            <span>Preview Specs</span>
-          </a>
+          {/* Sync / Refresh Button */}
+          {onRefresh && (
+            <button
+              type="button"
+              onClick={() => onRefresh()}
+              disabled={isRefreshing}
+              className="neo-btn bg-white hover:bg-neutral-100 text-black px-3 py-1.5 text-xs"
+              title="Refresh and sync data"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 mr-1 stroke-[2.5] ${isRefreshing ? "animate-spin" : ""}`} />
+              <span>{isRefreshing ? "Syncing..." : "Sync"}</span>
+            </button>
+          )}
         </div>
       </div>
     </header>

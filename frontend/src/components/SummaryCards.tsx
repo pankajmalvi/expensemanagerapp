@@ -28,8 +28,8 @@ export function SummaryCards({ summary, loading }: SummaryCardsProps) {
       {/* Card 1: Total Amount */}
       <div className="neo-card bg-[#FECDD3] p-5 sm:p-6 flex flex-col justify-between neo-card-hover">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-black uppercase tracking-wider text-black bg-white px-2 py-0.5 border-2 border-black rounded shadow-neobrutal-sm">
-            Total Spend
+          <span className="text-xs font-black uppercase tracking-wider text-black bg-white px-2 py-0.5 border-2 border-black rounded shadow-[2px_2px_0px_0px_#000]">
+            Total Spending
           </span>
           <div className="w-9 h-9 bg-black text-white flex items-center justify-center rounded border-2 border-black">
             <DollarSign className="w-5 h-5 stroke-[2.5]" />
@@ -40,7 +40,7 @@ export function SummaryCards({ summary, loading }: SummaryCardsProps) {
             {loading ? <span className="opacity-40 animate-pulse">$---.--</span> : total}
           </div>
           <p className="text-xs font-bold text-neutral-800 mt-1">
-            Aggregated across all registered transactions
+            Total amount spent to date
           </p>
         </div>
       </div>
@@ -48,8 +48,8 @@ export function SummaryCards({ summary, loading }: SummaryCardsProps) {
       {/* Card 2: Total Count */}
       <div className="neo-card bg-[#BBF7D0] p-5 sm:p-6 flex flex-col justify-between neo-card-hover">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-black uppercase tracking-wider text-black bg-white px-2 py-0.5 border-2 border-black rounded shadow-neobrutal-sm">
-            Total Count
+          <span className="text-xs font-black uppercase tracking-wider text-black bg-white px-2 py-0.5 border-2 border-black rounded shadow-[2px_2px_0px_0px_#000]">
+            Total Transactions
           </span>
           <div className="w-9 h-9 bg-black text-white flex items-center justify-center rounded border-2 border-black">
             <Layers className="w-5 h-5 stroke-[2.5]" />
@@ -60,7 +60,7 @@ export function SummaryCards({ summary, loading }: SummaryCardsProps) {
             {loading ? <span className="opacity-40 animate-pulse">--</span> : count}
           </div>
           <p className="text-xs font-bold text-neutral-800 mt-1">
-            Active expense records stored in database
+            Total logged expense count
           </p>
         </div>
       </div>
@@ -68,8 +68,8 @@ export function SummaryCards({ summary, loading }: SummaryCardsProps) {
       {/* Card 3: Average Amount */}
       <div className="neo-card bg-[#BAE6FD] p-5 sm:p-6 flex flex-col justify-between neo-card-hover">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-black uppercase tracking-wider text-black bg-white px-2 py-0.5 border-2 border-black rounded shadow-neobrutal-sm">
-            Average Spend
+          <span className="text-xs font-black uppercase tracking-wider text-black bg-white px-2 py-0.5 border-2 border-black rounded shadow-[2px_2px_0px_0px_#000]">
+            Average Expense
           </span>
           <div className="w-9 h-9 bg-black text-white flex items-center justify-center rounded border-2 border-black">
             <TrendingUp className="w-5 h-5 stroke-[2.5]" />
@@ -80,7 +80,7 @@ export function SummaryCards({ summary, loading }: SummaryCardsProps) {
             {loading ? <span className="opacity-40 animate-pulse">$---.--</span> : average}
           </div>
           <p className="text-xs font-bold text-neutral-800 mt-1">
-            Mean amount per logged transaction
+            Average spent per transaction
           </p>
         </div>
       </div>

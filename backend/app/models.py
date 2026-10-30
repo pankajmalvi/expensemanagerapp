@@ -9,7 +9,7 @@ class Category(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     name = Column(String, unique=True, index=True, nullable=False)
 
-    expenses = relationship("Expense", back_populates="category", cascade="all, delete-orphan")
+    expenses = relationship("Expense", back_populates="category")
 
 class Expense(Base):
     __tablename__ = "expenses"

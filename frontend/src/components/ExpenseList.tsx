@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Expense } from "@/lib/types";
-import { ListOrdered, Calendar, Tag, DollarSign, Inbox } from "lucide-react";
+import { ListOrdered, Calendar, Tag, Inbox } from "lucide-react";
 
 interface ExpenseListProps {
   expenses: Expense[];
@@ -15,6 +15,7 @@ export function ExpenseList({ expenses, loading }: ExpenseListProps) {
       style: "currency",
       currency: "USD",
       minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
     }).format(val);
   };
 
@@ -36,38 +37,38 @@ export function ExpenseList({ expenses, loading }: ExpenseListProps) {
   return (
     <div className="neo-card p-5 sm:p-6 bg-white">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-4 border-b-3 border-black gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-4 border-b-2 border-black gap-2">
         <div className="flex items-center gap-2">
-          <div className="p-1.5 bg-[#FEF08A] border-2 border-black rounded shadow-neobrutal-sm">
+          <div className="p-1.5 bg-[#FEF08A] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000]">
             <ListOrdered className="w-5 h-5 text-black stroke-[2.5]" />
           </div>
           <div>
-            <h2 className="text-lg font-black text-black tracking-tight">Expense Ledger</h2>
+            <h2 className="text-lg font-black text-black tracking-tight">Recent Transactions</h2>
             <p className="text-xs font-bold text-neutral-600">
-              Audit log with category join & timestamps
+              Complete history of recorded expenses
             </p>
           </div>
         </div>
         <div className="text-xs font-black bg-black text-white px-3 py-1 rounded border-2 border-black self-start sm:self-auto">
-          {expenses.length} {expenses.length === 1 ? "RECORD" : "RECORDS"}
+          {expenses.length} {expenses.length === 1 ? "TRANSACTION" : "TRANSACTIONS"}
         </div>
       </div>
 
       {/* Content */}
       {loading ? (
         <div className="py-12 text-center">
-          <div className="inline-block p-4 bg-[#FAF9F6] border-2 border-black rounded-lg shadow-neobrutal-sm animate-pulse">
-            <p className="text-sm font-black text-black">Loading expenses from SQLite...</p>
+          <div className="inline-block p-4 bg-[#FAF9F6] border-2 border-black rounded-lg shadow-[2px_2px_0px_0px_#000] animate-pulse">
+            <p className="text-sm font-black text-black">Loading expenses...</p>
           </div>
         </div>
       ) : expenses.length === 0 ? (
         <div className="py-12 px-4 text-center border-2 border-dashed border-neutral-400 rounded-xl bg-[#FAF9F6]">
-          <div className="w-14 h-14 mx-auto mb-3 bg-[#E9D5FF] border-2 border-black rounded-xl shadow-neobrutal flex items-center justify-center">
+          <div className="w-14 h-14 mx-auto mb-3 bg-[#E9D5FF] border-2 border-black rounded-xl shadow-[3px_3px_0px_0px_#000] flex items-center justify-center">
             <Inbox className="w-7 h-7 text-black stroke-[2.5]" />
           </div>
           <h3 className="text-base font-black text-black mb-1">No Transactions Recorded Yet</h3>
           <p className="text-xs font-bold text-neutral-600 max-w-sm mx-auto">
-            Your expense database is currently empty. Use the Record Expense form above to log your first transaction!
+            Your expense ledger is currently empty. Use the Add Expense form above to record your first transaction!
           </p>
         </div>
       ) : (
@@ -102,7 +103,7 @@ export function ExpenseList({ expenses, loading }: ExpenseListProps) {
 
                   {/* Category Pill */}
                   <td className="py-3 px-3 whitespace-nowrap">
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-[#FAF9F6] border-2 border-black rounded shadow-neobrutal-sm text-xs font-black text-black">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-[#FAF9F6] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-black text-black">
                       <Tag className="w-3 h-3 stroke-[3] text-black" />
                       {expense.category}
                     </span>
@@ -110,7 +111,7 @@ export function ExpenseList({ expenses, loading }: ExpenseListProps) {
 
                   {/* Amount */}
                   <td className="py-3 px-3 text-right whitespace-nowrap">
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-[#BBF7D0] border-2 border-black rounded shadow-neobrutal-sm font-black text-black">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-[#BBF7D0] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] font-black text-black">
                       {formatCurrency(expense.amount)}
                     </span>
                   </td>

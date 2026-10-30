@@ -41,7 +41,7 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
     setLoading(true);
     try {
       const created = await createCategory(trimmed);
-      setSuccess(`Category "${created.name}" created successfully!`);
+      setSuccess(`Category "${created.name}" created!`);
       setName("");
       await onCategoryAdded();
       setTimeout(() => setSuccess(null), 3000);
@@ -57,14 +57,14 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
     <div className="neo-card p-5 sm:p-6 bg-white flex flex-col justify-between h-full">
       <div>
         {/* Header */}
-        <div className="flex items-center gap-2 mb-4 pb-3 border-b-3 border-black">
-          <div className="p-1.5 bg-[#E9D5FF] border-2 border-black rounded shadow-neobrutal-sm">
+        <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-black">
+          <div className="p-1.5 bg-[#E9D5FF] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000]">
             <Tag className="w-5 h-5 text-black stroke-[2.5]" />
           </div>
           <div>
-            <h2 className="text-lg font-black text-black tracking-tight">Category Hub</h2>
+            <h2 className="text-lg font-black text-black tracking-tight">Categories</h2>
             <p className="text-xs font-bold text-neutral-600">
-              Manage relational classification buckets
+              Organize your expenses into distinct buckets
             </p>
           </div>
         </div>
@@ -84,7 +84,7 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
                   setName(e.target.value);
                   if (error) setError(null);
                 }}
-                placeholder="e.g., Food, Travel, Utilities..."
+                placeholder="e.g., Food, Transport, Rent"
                 maxLength={40}
                 className="neo-input text-sm"
                 disabled={loading}
@@ -102,14 +102,14 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
 
           {/* Validation Feedback */}
           {error && (
-            <div className="flex items-center gap-2 p-2.5 bg-[#FECDD3] border-2 border-black rounded shadow-neobrutal-sm text-xs font-bold text-black animate-fadeIn">
+            <div className="flex items-center gap-2 p-2.5 bg-[#FECDD3] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-bold text-black animate-fadeIn">
               <AlertCircle className="w-4 h-4 flex-shrink-0 stroke-[2.5]" />
               <span>{error}</span>
             </div>
           )}
 
           {success && (
-            <div className="flex items-center gap-2 p-2.5 bg-[#BBF7D0] border-2 border-black rounded shadow-neobrutal-sm text-xs font-bold text-black animate-fadeIn">
+            <div className="flex items-center gap-2 p-2.5 bg-[#BBF7D0] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-bold text-black animate-fadeIn">
               <CheckCircle2 className="w-4 h-4 flex-shrink-0 stroke-[2.5]" />
               <span>{success}</span>
             </div>
@@ -122,15 +122,12 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
             <span className="text-xs font-black uppercase tracking-wider text-black">
               Active Categories ({categories.length})
             </span>
-            <span className="text-[11px] font-bold text-neutral-500">
-              [Total Expenses Linked]
-            </span>
           </div>
 
           {categories.length === 0 ? (
-            <div className="p-4 border-2 border-dashed border-neutral-400 rounded-lg text-center bg-neutral-50">
+            <div className="p-4 border-2 border-dashed border-neutral-400 rounded-lg text-center bg-[#FAF9F6]">
               <p className="text-xs font-bold text-neutral-600">
-                No categories found. Add your first category above to begin logging expenses!
+                No categories yet. Add your first category above to begin logging expenses!
               </p>
             </div>
           ) : (
@@ -138,10 +135,10 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
               {categories.map((cat) => (
                 <div
                   key={cat.id}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#FAF9F6] border-2 border-black rounded-lg shadow-neobrutal-sm hover:translate-x-[1px] hover:translate-y-[1px] transition-all"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#FAF9F6] border-2 border-black rounded-lg shadow-[2px_2px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] transition-all"
                 >
                   <span className="text-xs font-black text-black">{cat.name}</span>
-                  <span className="px-1.5 py-0.2 bg-[#FEF08A] border border-black rounded text-[11px] font-extrabold text-black">
+                  <span className="px-1.5 py-0.5 bg-[#FEF08A] border border-black rounded text-[10px] font-extrabold text-black">
                     {cat.total_expenses} {cat.total_expenses === 1 ? "expense" : "expenses"}
                   </span>
                 </div>

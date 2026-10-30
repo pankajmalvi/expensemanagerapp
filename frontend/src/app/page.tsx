@@ -9,7 +9,7 @@ import { ExpenseList } from "@/components/ExpenseList";
 import { Footer } from "@/components/Footer";
 import { CategorySummary, Expense, Summary } from "@/lib/types";
 import { fetchCategories, fetchExpenses, fetchSummary } from "@/lib/api";
-import { AlertOctagon, RefreshCw } from "lucide-react";
+import { AlertCircle, RefreshCw } from "lucide-react";
 
 export default function Home() {
   const [categories, setCategories] = useState<CategorySummary[]>([]);
@@ -32,8 +32,8 @@ export default function Home() {
       setExpenses(exps);
       setSummary(summ);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Unable to reach backend service.";
-      setErrorBanner(`${msg} Ensure FastAPI is running on http://localhost:8000.`);
+      const msg = err instanceof Error ? err.message : "Unable to reach service.";
+      setErrorBanner(`${msg} Please ensure the backend server is running on port 8000.`);
     } finally {
       setLoading(false);
       if (isManualRefresh) setRefreshing(false);
@@ -47,7 +47,7 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col justify-between bg-[#FAF9F6]">
       {/* Top Navigation */}
-      <Navbar />
+      <Navbar onRefresh={() => loadData(true)} isRefreshing={refreshing} />
 
       {/* Main Content Dashboard */}
       <main className="max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 sm:py-8 space-y-8 flex-1">
@@ -56,10 +56,10 @@ export default function Home() {
           <div className="neo-card p-4 bg-[#FECDD3] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 animate-fadeIn">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-black text-white rounded flex items-center justify-center flex-shrink-0">
-                <AlertOctagon className="w-5 h-5 stroke-[2.5]" />
+                <AlertCircle className="w-5 h-5 stroke-[2.5]" />
               </div>
               <div>
-                <h4 className="text-sm font-black text-black">Backend Connection Notice</h4>
+                <h4 className="text-sm font-black text-black">Service Offline</h4>
                 <p className="text-xs font-bold text-neutral-800">{errorBanner}</p>
               </div>
             </div>
@@ -73,48 +73,47 @@ export default function Home() {
           </div>
         )}
 
-        {/* Top Header / Headline */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-2 border-b-2 border-neutral-300">
+        {/* Dashboard Title & Quick Sync */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-3 border-b-[3px] border-black">
           <div>
             <h1 className="text-2xl sm:text-3xl font-black text-black tracking-tight">
-              Expense Overview & Management
+              Expense Overview
             </h1>
             <p className="text-xs sm:text-sm font-bold text-neutral-600 mt-1">
-              Classify expenses into categories, enforce database relational constraints, and view real-time totals.
+              Classify expenses, manage category budgets, and monitor your personal cashflow.
             </p>
           </div>
-          <button
-            onClick={() => loadData(true)}
-            disabled={refreshing}
-            className="neo-btn bg-white hover:bg-neutral-100 text-black px-3.5 py-1.5 text-xs font-black self-start sm:self-auto"
-            title="Refresh All Data from SQLite"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 mr-1.5 ${refreshing ? "animate-spin" : ""}`} />
-            <span>{refreshing ? "Syncing..." : "Sync Database"}</span>
-          </button>
         </div>
 
         {/* 1. Summary Cards Section */}
-        <SummaryCards summary={summary} loading={loading} />
+        <section id="summary-section">
+          <SummaryCards summary={summary} loading={loading} />
+        </section>
 
         {/* 2. Middle Row: Category Section & Expense Form */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-          <CategorySection
-            categories={categories}
-            onCategoryAdded={async () => {
-              await loadData();
-            }}
-          />
-          <ExpenseForm
-            categories={categories}
-            onExpenseAdded={async () => {
-              await loadData();
-            }}
-          />
+          <section id="category-section" className="h-full">
+            <CategorySection
+              categories={categories}
+              onCategoryAdded={async () => {
+                await loadData();
+              }}
+            />
+          </section>
+          <section id="expense-form" className="h-full">
+            <ExpenseForm
+              categories={categories}
+              onExpenseAdded={async () => {
+                await loadData();
+              }}
+            />
+          </section>
         </div>
 
         {/* 3. Bottom Row: Expense List Ledger */}
-        <ExpenseList expenses={expenses} loading={loading} />
+        <section id="expense-ledger">
+          <ExpenseList expenses={expenses} loading={loading} />
+        </section>
       </main>
 
       {/* Footer */}

@@ -50,6 +50,16 @@ def test_add_category_success():
     assert data["id"] == 1
     assert data["name"] == "Food"
 
+def test_add_category_trimmed():
+    response = client.post("/categories", json={"name": "  Health & Wellness  "})
+    assert response.status_code == 201
+    assert response.json()["name"] == "Health & Wellness"
+
+def test_add_category_single_char():
+    response = client.post("/categories", json={"name": "X"})
+    assert response.status_code == 201
+    assert response.json()["name"] == "X"
+
 def test_add_duplicate_category_exact():
     client.post("/categories", json={"name": "Food"})
     response = client.post("/categories", json={"name": "Food"})
@@ -74,6 +84,10 @@ def test_add_category_empty_name():
 
 def test_add_category_whitespace_name():
     response = client.post("/categories", json={"name": "   "})
+    assert response.status_code == 422
+
+def test_add_category_newlines_only():
+    response = client.post("/categories", json={"name": "\n\t  \r"})
     assert response.status_code == 422
 
 def test_list_categories_with_counts():
@@ -108,6 +122,42 @@ def test_add_expense_success():
     assert data["category_id"] == cat_id
     assert "created_at" in data
 
+def test_add_expense_with_special_characters():
+    cat_res = client.post("/categories", json={"name": "Work"})
+    cat_id = cat_res.json()["id"]
+
+    response = client.post("/expenses", json={
+        "title": "Office Supplies & Notebooks (Q1 - 2026) #12",
+        "amount": 89.95,
+        "category_id": cat_id
+    })
+    assert response.status_code == 201
+    assert response.json()["title"] == "Office Supplies & Notebooks (Q1 - 2026) #12"
+
+def test_add_expense_rounds_amount():
+    cat_res = client.post("/categories", json={"name": "Food"})
+    cat_id = cat_res.json()["id"]
+
+    response = client.post("/expenses", json={
+        "title": "Dinner with tax",
+        "amount": 49.999,
+        "category_id": cat_id
+    })
+    assert response.status_code == 201
+    assert response.json()["amount"] == 50.0
+
+def test_add_expense_large_amount():
+    cat_res = client.post("/categories", json={"name": "Real Estate"})
+    cat_id = cat_res.json()["id"]
+
+    response = client.post("/expenses", json={
+        "title": "Office Lease Deposit",
+        "amount": 1000000.50,
+        "category_id": cat_id
+    })
+    assert response.status_code == 201
+    assert response.json()["amount"] == 1000000.50
+
 def test_add_expense_nonexistent_category_constraint_1():
     # Constraint 1: Category must exist before creating expense
     response = client.post("/expenses", json={
@@ -138,6 +188,14 @@ def test_add_expense_empty_title_constraint_2():
     })
     assert response2.status_code == 422
 
+    # Newlines/tabs only
+    response3 = client.post("/expenses", json={
+        "title": "\n\t  ",
+        "amount": 100.0,
+        "category_id": cat_id
+    })
+    assert response3.status_code == 422
+
 def test_add_expense_invalid_amount_constraint_3():
     cat_res = client.post("/categories", json={"name": "Food"})
     cat_id = cat_res.json()["id"]
@@ -157,6 +215,22 @@ def test_add_expense_invalid_amount_constraint_3():
         "category_id": cat_id
     })
     assert res_neg.status_code == 422
+
+    # String amount
+    res_str = client.post("/expenses", json={
+        "title": "Refund",
+        "amount": "not-a-number",
+        "category_id": cat_id
+    })
+    assert res_str.status_code == 422
+
+def test_add_expense_invalid_category_id_type():
+    res = client.post("/expenses", json={
+        "title": "Snacks",
+        "amount": 10.0,
+        "category_id": "invalid-id"
+    })
+    assert res.status_code == 422
 
 def test_fetch_expenses_with_joined_category():
     client.post("/categories", json={"name": "Food"})
@@ -211,3 +285,22 @@ def test_summary_calculation_matches_prd_example():
     assert data["count"] == 2
     # 430.5 / 2 = 215.25
     assert data["average"] == 215.25
+
+def test_multiple_categories_and_expenses_edge_summary():
+    # 3 categories, multiple expenses, verifying average precision
+    client.post("/categories", json={"name": "Groceries"})
+    client.post("/categories", json={"name": "Entertainment"})
+    client.post("/categories", json={"name": "Bills"})
+
+    client.post("/expenses", json={"title": "Supermarket", "amount": 100.10, "category_id": 1})
+    client.post("/expenses", json={"title": "Cinema", "amount": 25.40, "category_id": 2})
+    client.post("/expenses", json={"title": "Electricity", "amount": 74.50, "category_id": 3})
+
+    summ_res = client.get("/summary")
+    assert summ_res.status_code == 200
+    summ = summ_res.json()
+    # Total: 100.10 + 25.40 + 74.50 = 200.00
+    assert summ["total"] == 200.0
+    assert summ["count"] == 3
+    # Average: 200 / 3 = 66.67
+    assert summ["average"] == 66.67
