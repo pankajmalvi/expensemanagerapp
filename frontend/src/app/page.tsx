@@ -50,7 +50,7 @@ export default function Home() {
       <Navbar onRefresh={() => loadData(true)} isRefreshing={refreshing} />
 
       {/* Main Content Dashboard */}
-      <main className="max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 sm:py-8 space-y-8 flex-1">
+      <main className="max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-7 space-y-6 sm:space-y-8 flex-1">
         {/* Connection / Backend Error Notification */}
         {errorBanner && (
           <div className="neo-card p-4 bg-[#FECDD3] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 animate-fadeIn">
@@ -73,8 +73,8 @@ export default function Home() {
           </div>
         )}
 
-        {/* Dashboard Title & Quick Sync */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-3 border-b-[3px] border-black">
+        {/* Dashboard Title & Subtitle */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-3 border-b-[3px] border-black">
           <div>
             <h1 className="text-2xl sm:text-3xl font-black text-black tracking-tight">
               Expense Overview
@@ -92,7 +92,7 @@ export default function Home() {
 
         {/* 2. Middle Row: Category Section & Expense Form */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-          <section id="category-section" className="h-full">
+          <section id="category-section" className="h-full min-w-0">
             <CategorySection
               categories={categories}
               onCategoryAdded={async () => {
@@ -100,7 +100,7 @@ export default function Home() {
               }}
             />
           </section>
-          <section id="expense-form" className="h-full">
+          <section id="expense-form" className="h-full min-w-0">
             <ExpenseForm
               categories={categories}
               onExpenseAdded={async () => {

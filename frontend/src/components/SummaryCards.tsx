@@ -24,19 +24,19 @@ export function SummaryCards({ summary, loading }: SummaryCardsProps) {
   const average = summary ? formatCurrency(summary.average) : "$0.00";
 
   return (
-    <section className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+    <section className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
       {/* Card 1: Total Amount */}
-      <div className="neo-card bg-[#FECDD3] p-5 sm:p-6 flex flex-col justify-between neo-card-hover">
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-black uppercase tracking-wider text-black bg-white px-2 py-0.5 border-2 border-black rounded shadow-[2px_2px_0px_0px_#000]">
+      <div className="neo-card bg-[#FECDD3] p-4 sm:p-5 lg:p-6 flex flex-col justify-between neo-card-hover min-w-0">
+        <div className="flex items-center justify-between mb-3 gap-2">
+          <span className="text-xs font-black uppercase tracking-wider text-black bg-white px-2 py-0.5 border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] truncate">
             Total Spending
           </span>
-          <div className="w-9 h-9 bg-black text-white flex items-center justify-center rounded border-2 border-black">
+          <div className="w-9 h-9 bg-black text-white flex items-center justify-center rounded border-2 border-black flex-shrink-0">
             <DollarSign className="w-5 h-5 stroke-[2.5]" />
           </div>
         </div>
         <div>
-          <div className="text-3xl sm:text-4xl font-black text-black tracking-tight">
+          <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight truncate">
             {loading ? <span className="opacity-40 animate-pulse">$---.--</span> : total}
           </div>
           <p className="text-xs font-bold text-neutral-800 mt-1">
@@ -46,17 +46,17 @@ export function SummaryCards({ summary, loading }: SummaryCardsProps) {
       </div>
 
       {/* Card 2: Total Count */}
-      <div className="neo-card bg-[#BBF7D0] p-5 sm:p-6 flex flex-col justify-between neo-card-hover">
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-black uppercase tracking-wider text-black bg-white px-2 py-0.5 border-2 border-black rounded shadow-[2px_2px_0px_0px_#000]">
-            Total Transactions
+      <div className="neo-card bg-[#BBF7D0] p-4 sm:p-5 lg:p-6 flex flex-col justify-between neo-card-hover min-w-0">
+        <div className="flex items-center justify-between mb-3 gap-2">
+          <span className="text-xs font-black uppercase tracking-wider text-black bg-white px-2 py-0.5 border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] truncate">
+            Transactions
           </span>
-          <div className="w-9 h-9 bg-black text-white flex items-center justify-center rounded border-2 border-black">
+          <div className="w-9 h-9 bg-black text-white flex items-center justify-center rounded border-2 border-black flex-shrink-0">
             <Layers className="w-5 h-5 stroke-[2.5]" />
           </div>
         </div>
         <div>
-          <div className="text-3xl sm:text-4xl font-black text-black tracking-tight">
+          <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight truncate">
             {loading ? <span className="opacity-40 animate-pulse">--</span> : count}
           </div>
           <p className="text-xs font-bold text-neutral-800 mt-1">
@@ -66,17 +66,17 @@ export function SummaryCards({ summary, loading }: SummaryCardsProps) {
       </div>
 
       {/* Card 3: Average Amount */}
-      <div className="neo-card bg-[#BAE6FD] p-5 sm:p-6 flex flex-col justify-between neo-card-hover">
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-black uppercase tracking-wider text-black bg-white px-2 py-0.5 border-2 border-black rounded shadow-[2px_2px_0px_0px_#000]">
+      <div className="neo-card bg-[#BAE6FD] p-4 sm:p-5 lg:p-6 flex flex-col justify-between neo-card-hover min-w-0">
+        <div className="flex items-center justify-between mb-3 gap-2">
+          <span className="text-xs font-black uppercase tracking-wider text-black bg-white px-2 py-0.5 border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] truncate">
             Average Expense
           </span>
-          <div className="w-9 h-9 bg-black text-white flex items-center justify-center rounded border-2 border-black">
+          <div className="w-9 h-9 bg-black text-white flex items-center justify-center rounded border-2 border-black flex-shrink-0">
             <TrendingUp className="w-5 h-5 stroke-[2.5]" />
           </div>
         </div>
         <div>
-          <div className="text-3xl sm:text-4xl font-black text-black tracking-tight">
+          <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight truncate">
             {loading ? <span className="opacity-40 animate-pulse">$---.--</span> : average}
           </div>
           <p className="text-xs font-bold text-neutral-800 mt-1">

@@ -35,21 +35,21 @@ export function ExpenseList({ expenses, loading }: ExpenseListProps) {
   };
 
   return (
-    <div className="neo-card p-5 sm:p-6 bg-white">
+    <div className="neo-card p-4 sm:p-5 lg:p-6 bg-white min-w-0">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-4 border-b-2 border-black gap-2">
         <div className="flex items-center gap-2">
-          <div className="p-1.5 bg-[#FEF08A] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000]">
+          <div className="p-1.5 bg-[#FEF08A] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] flex-shrink-0">
             <ListOrdered className="w-5 h-5 text-black stroke-[2.5]" />
           </div>
           <div>
-            <h2 className="text-lg font-black text-black tracking-tight">Recent Transactions</h2>
+            <h2 className="text-base sm:text-lg font-black text-black tracking-tight">Recent Transactions</h2>
             <p className="text-xs font-bold text-neutral-600">
               Complete history of recorded expenses
             </p>
           </div>
         </div>
-        <div className="text-xs font-black bg-black text-white px-3 py-1 rounded border-2 border-black self-start sm:self-auto">
+        <div className="text-xs font-black bg-black text-white px-3 py-1 rounded border-2 border-black self-start sm:self-auto flex-shrink-0">
           {expenses.length} {expenses.length === 1 ? "TRANSACTION" : "TRANSACTIONS"}
         </div>
       </div>
@@ -72,8 +72,8 @@ export function ExpenseList({ expenses, loading }: ExpenseListProps) {
           </p>
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+        <div className="overflow-x-auto w-full">
+          <table className="w-full min-w-[500px] text-left border-collapse">
             <thead>
               <tr className="border-b-2 border-black bg-[#FAF9F6] text-[11px] font-black uppercase tracking-wider text-black">
                 <th className="py-2.5 px-3">Date & Time</th>
@@ -97,7 +97,7 @@ export function ExpenseList({ expenses, loading }: ExpenseListProps) {
                   </td>
 
                   {/* Title */}
-                  <td className="py-3 px-3 font-bold text-black max-w-xs truncate">
+                  <td className="py-3 px-3 font-bold text-black max-w-[180px] sm:max-w-xs truncate">
                     {expense.title}
                   </td>
 

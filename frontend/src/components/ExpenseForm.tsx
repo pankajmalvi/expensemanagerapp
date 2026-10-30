@@ -76,15 +76,15 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
   };
 
   return (
-    <div className="neo-card p-5 sm:p-6 bg-white flex flex-col justify-between h-full">
+    <div className="neo-card p-4 sm:p-5 lg:p-6 bg-white flex flex-col justify-between h-full min-w-0">
       <div>
         {/* Header */}
         <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-black">
-          <div className="p-1.5 bg-[#BBF7D0] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000]">
+          <div className="p-1.5 bg-[#BBF7D0] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] flex-shrink-0">
             <Receipt className="w-5 h-5 text-black stroke-[2.5]" />
           </div>
           <div>
-            <h2 className="text-lg font-black text-black tracking-tight">Add Expense</h2>
+            <h2 className="text-base sm:text-lg font-black text-black tracking-tight">Add Expense</h2>
             <p className="text-xs font-bold text-neutral-600">
               Record a new payment under a category
             </p>
@@ -120,7 +120,7 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
               placeholder="e.g., Grocery shopping, Team lunch, Gas"
               disabled={loading || !hasCategories}
               maxLength={80}
-              className="neo-input text-sm disabled:opacity-50 disabled:bg-neutral-100"
+              className="neo-input text-sm disabled:opacity-50 disabled:bg-neutral-100 min-w-0"
             />
           </div>
 
@@ -142,7 +142,7 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
                 }}
                 placeholder="0.00"
                 disabled={loading || !hasCategories}
-                className="neo-input text-sm disabled:opacity-50 disabled:bg-neutral-100"
+                className="neo-input text-sm disabled:opacity-50 disabled:bg-neutral-100 min-w-0"
               />
             </div>
 
@@ -159,7 +159,7 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
                   if (error) setError(null);
                 }}
                 disabled={loading || !hasCategories}
-                className="neo-input text-sm font-bold disabled:opacity-50 disabled:bg-neutral-100"
+                className="neo-input text-sm font-bold disabled:opacity-50 disabled:bg-neutral-100 min-w-0"
               >
                 <option value="">Select a category</option>
                 {categories.map((cat) => (
@@ -175,14 +175,14 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
           {error && (
             <div className="flex items-center gap-2 p-2.5 bg-[#FECDD3] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-bold text-black animate-fadeIn">
               <AlertCircle className="w-4 h-4 flex-shrink-0 stroke-[2.5]" />
-              <span>{error}</span>
+              <span className="break-words">{error}</span>
             </div>
           )}
 
           {success && (
             <div className="flex items-center gap-2 p-2.5 bg-[#BBF7D0] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-bold text-black animate-fadeIn">
               <CheckCircle2 className="w-4 h-4 flex-shrink-0 stroke-[2.5]" />
-              <span>{success}</span>
+              <span className="break-words">{success}</span>
             </div>
           )}
 
