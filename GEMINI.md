@@ -22,3 +22,7 @@ All Git operations must follow the policies defined in `.agents/rules/git-workfl
 - Types: `feat`, `fix`, `test`, `docs`, `refactor`, `chore`.
 - Never commit virtualenvs, node_modules, `.env`, or SQLite DB files.
 
+
+
+Please add below enhancements as well in our project,
+- Add preview links for our webpage so it doesn't looks like spam 

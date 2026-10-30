@@ -1,79 +1,67 @@
 from datetime import datetime
-from pydantic import BaseModel, Field, field_validator, ConfigDict
-from typing import Optional
+from pydantic import BaseModel, ConfigDict, field_validator
 
 class CategoryCreate(BaseModel):
-    name: str = Field(..., min_length=1, description="Category name cannot be empty")
+    name: str
 
     @field_validator("name")
     @classmethod
     def validate_name(cls, v: str) -> str:
-        if not isinstance(v, str):
-            raise ValueError("Category name must be a string.")
-        trimmed = v.strip()
-        if not trimmed:
+        val = v.strip()
+        if not val:
             raise ValueError("Category name cannot be empty or whitespace only.")
-        return trimmed
-
+        return val
 
 class CategoryOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     name: str
 
+class CategorySummaryOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
-
-class CategorySummaryOut(BaseModel):
     id: int
     name: str
     total_expenses: int
 
-    model_config = ConfigDict(from_attributes=True)
-
-
 class ExpenseCreate(BaseModel):
-    title: str = Field(..., min_length=1, description="Expense title cannot be empty")
-    amount: float = Field(..., gt=0, description="Expense amount must be strictly positive (> 0)")
-    category_id: int = Field(..., gt=0, description="Category ID must be a positive integer")
+    title: str
+    amount: float
+    category_id: int
 
     @field_validator("title")
     @classmethod
     def validate_title(cls, v: str) -> str:
-        if not isinstance(v, str):
-            raise ValueError("Expense title must be a string.")
-        trimmed = v.strip()
-        if not trimmed:
+        val = v.strip()
+        if not val:
             raise ValueError("Expense title cannot be empty or whitespace only.")
-        return trimmed
+        return val
 
     @field_validator("amount")
     @classmethod
     def validate_amount(cls, v: float) -> float:
         if v <= 0:
-            raise ValueError("Expense amount must be strictly greater than zero.")
-        # Round to 2 decimal places for financial precision
+            raise ValueError("Expense amount must be strictly positive (greater than 0).")
         return round(float(v), 2)
 
+class ExpenseCreatedOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
 
-class ExpenseCreateOut(BaseModel):
     id: int
     title: str
     amount: float
     category_id: int
-    created_at: datetime
-
-    model_config = ConfigDict(from_attributes=True)
-
+    created_at: str
 
 class ExpenseListOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     title: str
     amount: float
     category: str
-    created_at: datetime
-
-    model_config = ConfigDict(from_attributes=True)
-
+    created_at: str
 
 class SummaryOut(BaseModel):
     total: float

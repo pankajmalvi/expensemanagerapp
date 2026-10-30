@@ -3,31 +3,25 @@ from fastapi.middleware.cors import CORSMiddleware
 from .database import engine, Base
 from .routers import categories, expenses, summary
 
-# Initialize database schema
+# Create database tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Expense Manager API",
-    description="Backend API for Expense Tracker with Categories and Summary Analytics",
+    description="Relational expense tracking service adhering to PRD specifications.",
     version="1.0.0"
 )
 
-# Configure CORS for Next.js frontend
-origins = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://localhost",
-]
-
+# Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],  # Allows all origins for local dev (Next.js at port 3000)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Mount feature routers
+# Include Routers
 app.include_router(categories.router)
 app.include_router(expenses.router)
 app.include_router(summary.router)

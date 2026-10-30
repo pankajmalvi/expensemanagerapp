@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, Numeric, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from .database import Base
 
@@ -9,15 +9,14 @@ class Category(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     name = Column(String, unique=True, index=True, nullable=False)
 
-    expenses = relationship("Expense", back_populates="category")
-
+    expenses = relationship("Expense", back_populates="category", cascade="all, delete-orphan")
 
 class Expense(Base):
     __tablename__ = "expenses"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     title = Column(String, nullable=False)
-    amount = Column(Float, nullable=False)
+    amount = Column(Numeric(precision=10, scale=2), nullable=False)
     category_id = Column(Integer, ForeignKey("categories.id", ondelete="RESTRICT"), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 

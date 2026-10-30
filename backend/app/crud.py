@@ -1,101 +1,94 @@
+from datetime import datetime
+from typing import List, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy import func
-from datetime import datetime
-from typing import List, Optional, Dict, Any
-from . import models, schemas
+from .models import Category, Expense
+from .schemas import CategoryCreate, ExpenseCreate, CategorySummaryOut, ExpenseListOut, ExpenseCreatedOut, SummaryOut
 
-def get_category_by_id(db: Session, category_id: int) -> Optional[models.Category]:
-    return db.query(models.Category).filter(models.Category.id == category_id).first()
+def get_category_by_name(db: Session, name: str) -> Optional[Category]:
+    cleaned = name.strip()
+    return db.query(Category).filter(func.lower(Category.name) == cleaned.lower()).first()
 
+def get_category_by_id(db: Session, category_id: int) -> Optional[Category]:
+    return db.query(Category).filter(Category.id == category_id).first()
 
-def get_category_by_name(db: Session, name: str) -> Optional[models.Category]:
-    trimmed_name = name.strip()
-    return db.query(models.Category).filter(
-        func.lower(models.Category.name) == func.lower(trimmed_name)
-    ).first()
-
-
-def create_category(db: Session, category_in: schemas.CategoryCreate) -> models.Category:
-    clean_name = category_in.name.strip()
-    db_category = models.Category(name=clean_name)
-    db.add(db_category)
+def create_category(db: Session, category_in: CategoryCreate) -> Category:
+    cleaned_name = category_in.name.strip()
+    existing = get_category_by_name(db, cleaned_name)
+    if existing:
+        raise ValueError(f"Category '{cleaned_name}' already exists.")
+    
+    cat = Category(name=cleaned_name)
+    db.add(cat)
     db.commit()
-    db.refresh(db_category)
-    return db_category
+    db.refresh(cat)
+    return cat
 
-
-def get_categories_with_count(db: Session) -> List[Dict[str, Any]]:
-    # Outer join to ensure categories with 0 expenses are also returned
+def get_categories_with_count(db: Session) -> List[CategorySummaryOut]:
     results = (
         db.query(
-            models.Category.id,
-            models.Category.name,
-            func.count(models.Expense.id).label("total_expenses")
+            Category.id,
+            Category.name,
+            func.count(Expense.id).label("total_expenses")
         )
-        .outerjoin(models.Expense, models.Category.id == models.Expense.category_id)
-        .group_by(models.Category.id)
-        .order_by(models.Category.id.asc())
+        .outerjoin(Expense, Category.id == Expense.category_id)
+        .group_by(Category.id, Category.name)
+        .order_by(Category.id.asc())
         .all()
     )
-
     return [
-        {
-            "id": r.id,
-            "name": r.name,
-            "total_expenses": r.total_expenses
-        }
+        CategorySummaryOut(id=r.id, name=r.name, total_expenses=r.total_expenses)
         for r in results
     ]
 
-
-def create_expense(db: Session, expense_in: schemas.ExpenseCreate) -> models.Expense:
-    clean_title = expense_in.title.strip()
-    clean_amount = round(expense_in.amount, 2)
-
-    db_expense = models.Expense(
-        title=clean_title,
-        amount=clean_amount,
+def create_expense(db: Session, expense_in: ExpenseCreate) -> ExpenseCreatedOut:
+    cat = get_category_by_id(db, expense_in.category_id)
+    if not cat:
+        raise ValueError(f"Category with id {expense_in.category_id} does not exist.")
+    
+    now = datetime.utcnow()
+    exp = Expense(
+        title=expense_in.title.strip(),
+        amount=round(expense_in.amount, 2),
         category_id=expense_in.category_id,
-        created_at=datetime.utcnow()
+        created_at=now
     )
-    db.add(db_expense)
+    db.add(exp)
     db.commit()
-    db.refresh(db_expense)
-    return db_expense
+    db.refresh(exp)
+    return ExpenseCreatedOut(
+        id=exp.id,
+        title=exp.title,
+        amount=float(exp.amount),
+        category_id=exp.category_id,
+        created_at=exp.created_at.isoformat()
+    )
 
-
-def get_expenses(db: Session) -> List[Dict[str, Any]]:
-    expenses = (
-        db.query(models.Expense)
-        .join(models.Category, models.Expense.category_id == models.Category.id)
-        .order_by(models.Expense.created_at.desc(), models.Expense.id.desc())
+def get_expenses(db: Session) -> List[ExpenseListOut]:
+    results = (
+        db.query(Expense, Category.name.label("category_name"))
+        .join(Category, Expense.category_id == Category.id)
+        .order_by(Expense.created_at.desc(), Expense.id.desc())
         .all()
     )
-
     return [
-        {
-            "id": exp.id,
-            "title": exp.title,
-            "amount": round(float(exp.amount), 2),
-            "category": exp.category.name,
-            "created_at": exp.created_at
-        }
-        for exp in expenses
+        ExpenseListOut(
+            id=exp.id,
+            title=exp.title,
+            amount=float(exp.amount),
+            category=cat_name,
+            created_at=exp.created_at.isoformat()
+        )
+        for exp, cat_name in results
     ]
 
-
-def get_summary(db: Session) -> Dict[str, Any]:
-    row = db.query(
-        func.coalesce(func.sum(models.Expense.amount), 0.0).label("total"),
-        func.count(models.Expense.id).label("count")
-    ).first()
-
-    total = round(float(row.total), 2) if row and row.total else 0.0
-    count = int(row.count) if row and row.count else 0
-    average = round(total / count, 2) if count > 0 else 0.0
-
-    return {
-        "total": total,
-        "count": count,
-        "average": average
-    }
+def get_summary(db: Session) -> SummaryOut:
+    count = db.query(func.count(Expense.id)).scalar() or 0
+    total = db.query(func.sum(Expense.amount)).scalar()
+    total_val = float(total) if total is not None else 0.0
+    average = round(total_val / count, 2) if count > 0 else 0.0
+    return SummaryOut(
+        total=round(total_val, 2),
+        count=count,
+        average=average
+    )

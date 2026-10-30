@@ -1,14 +1,11 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
-from .. import crud, schemas
 from ..database import get_db
+from ..schemas import SummaryOut
+from .. import crud
 
 router = APIRouter(prefix="/summary", tags=["Summary"])
 
-@router.get(
-    "",
-    response_model=schemas.SummaryOut,
-    summary="Get overall statistics (total amount, total count, average amount)"
-)
-def get_summary(db: Session = Depends(get_db)):
+@router.get("", response_model=SummaryOut, status_code=status.HTTP_200_OK)
+def get_overall_summary(db: Session = Depends(get_db)):
     return crud.get_summary(db)
