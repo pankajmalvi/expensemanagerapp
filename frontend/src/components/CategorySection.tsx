@@ -62,8 +62,8 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
             <Tag className="w-5 h-5 text-black stroke-[2.5]" />
           </div>
           <div>
-            <h2 className="text-base sm:text-lg font-black text-black tracking-tight">Categories</h2>
-            <p className="text-xs font-bold text-neutral-600">
+            <h2 className="text-base sm:text-lg font-bold text-black tracking-tight">Categories</h2>
+            <p className="text-xs font-normal text-neutral-600">
               Organize your expenses into distinct buckets
             </p>
           </div>
@@ -72,7 +72,7 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
         {/* Create Category Form */}
         <form onSubmit={handleSubmit} className="mb-5 space-y-3">
           <div>
-            <label htmlFor="category-name" className="block text-xs font-black uppercase tracking-wider text-black mb-1">
+            <label htmlFor="category-name" className="block text-xs font-semibold uppercase tracking-wider text-neutral-800 mb-1.5">
               New Category Name
             </label>
             <div className="flex gap-2">
@@ -94,7 +94,7 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
                 disabled={loading || !name.trim()}
                 className="neo-btn bg-[#FEF08A] hover:bg-yellow-300 text-black px-3.5 sm:px-4 py-2 text-sm whitespace-nowrap flex-shrink-0"
               >
-                <Plus className="w-4 h-4 mr-1 stroke-[3]" />
+                <Plus className="w-4 h-4 mr-1 stroke-[2.5]" />
                 <span>{loading ? "Adding..." : "Add"}</span>
               </button>
             </div>
@@ -102,14 +102,14 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
 
           {/* Validation Feedback */}
           {error && (
-            <div className="flex items-center gap-2 p-2.5 bg-[#FECDD3] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-bold text-black animate-fadeIn">
+            <div className="flex items-center gap-2 p-2.5 bg-[#FECDD3] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-medium text-black animate-fadeIn">
               <AlertCircle className="w-4 h-4 flex-shrink-0 stroke-[2.5]" />
               <span className="break-words">{error}</span>
             </div>
           )}
 
           {success && (
-            <div className="flex items-center gap-2 p-2.5 bg-[#BBF7D0] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-bold text-black animate-fadeIn">
+            <div className="flex items-center gap-2 p-2.5 bg-[#BBF7D0] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-medium text-black animate-fadeIn">
               <CheckCircle2 className="w-4 h-4 flex-shrink-0 stroke-[2.5]" />
               <span className="break-words">{success}</span>
             </div>
@@ -119,14 +119,14 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
         {/* Existing Categories Badges */}
         <div>
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-black uppercase tracking-wider text-black">
+            <span className="text-xs font-semibold uppercase tracking-wider text-neutral-700">
               Active Categories ({categories.length})
             </span>
           </div>
 
           {categories.length === 0 ? (
-            <div className="p-4 border-2 border-dashed border-neutral-400 rounded-lg text-center bg-[#FAF9F6]">
-              <p className="text-xs font-bold text-neutral-600">
+            <div className="p-4 border-2 border-dashed border-neutral-300 rounded-lg text-center bg-[#FAF9F6]">
+              <p className="text-xs font-medium text-neutral-600">
                 No categories yet. Add your first category above to begin logging expenses!
               </p>
             </div>
@@ -137,8 +137,8 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
                   key={cat.id}
                   className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-[#FAF9F6] border-2 border-black rounded-lg shadow-[2px_2px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] transition-all max-w-full"
                 >
-                  <span className="text-xs font-black text-black truncate max-w-[120px] sm:max-w-[180px]">{cat.name}</span>
-                  <span className="px-1.5 py-0.5 bg-[#FEF08A] border border-black rounded text-[10px] font-extrabold text-black flex-shrink-0">
+                  <span className="text-xs font-medium text-black truncate max-w-[120px] sm:max-w-[180px]">{cat.name}</span>
+                  <span className="px-1.5 py-0.5 bg-[#FEF08A] border border-black rounded text-xs font-semibold text-black flex-shrink-0">
                     {cat.total_expenses} {cat.total_expenses === 1 ? "expense" : "expenses"}
                   </span>
                 </div>

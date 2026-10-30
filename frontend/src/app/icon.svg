@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Offset Shadow -->
+  <rect x="7" y="7" width="52" height="52" rx="14" fill="#000000" />
+  
+  <!-- Main Badge -->
+  <rect x="4" y="4" width="52" height="52" rx="14" fill="#FEF08A" stroke="#000000" stroke-width="4" stroke-linejoin="round" />
+  
+  <!-- Wallet Flap -->
+  <path d="M12 24C12 18.4772 16.4772 14 22 14H42C47.5228 14 52 18.4772 52 24V26H12V24Z" fill="#4EFA94" stroke="#000000" stroke-width="3.5" stroke-linejoin="round" />
+  
+  <!-- Wallet Main Body -->
+  <rect x="12" y="24" width="40" height="26" rx="6" fill="#FFFFFF" stroke="#000000" stroke-width="3.5" stroke-linejoin="round" />
+  
+  <!-- Clasp / Coin Badge -->
+  <circle cx="32" cy="37" r="7" fill="#FEF08A" stroke="#000000" stroke-width="3" />
+  <path d="M32 33V41M30 35H34M30 39H34" stroke="#000000" stroke-width="2.5" stroke-linecap="round" />
+</svg>

@@ -28,7 +28,7 @@ export function SummaryCards({ summary, loading }: SummaryCardsProps) {
       {/* Card 1: Total Amount */}
       <div className="neo-card bg-[#FECDD3] p-4 sm:p-5 lg:p-6 flex flex-col justify-between neo-card-hover min-w-0">
         <div className="flex items-center justify-between mb-3 gap-2">
-          <span className="text-xs font-black uppercase tracking-wider text-black bg-white px-2 py-0.5 border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] truncate">
+          <span className="text-xs font-semibold uppercase tracking-wider text-black bg-white px-2 py-0.5 border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] truncate">
             Total Spending
           </span>
           <div className="w-9 h-9 bg-black text-white flex items-center justify-center rounded border-2 border-black flex-shrink-0">
@@ -36,10 +36,10 @@ export function SummaryCards({ summary, loading }: SummaryCardsProps) {
           </div>
         </div>
         <div>
-          <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight truncate">
+          <div className="text-3xl sm:text-4xl font-extrabold text-black tracking-tight truncate">
             {loading ? <span className="opacity-40 animate-pulse">$---.--</span> : total}
           </div>
-          <p className="text-xs font-bold text-neutral-800 mt-1">
+          <p className="text-xs font-normal text-neutral-700 mt-1">
             Total amount spent to date
           </p>
         </div>
@@ -48,7 +48,7 @@ export function SummaryCards({ summary, loading }: SummaryCardsProps) {
       {/* Card 2: Total Count */}
       <div className="neo-card bg-[#BBF7D0] p-4 sm:p-5 lg:p-6 flex flex-col justify-between neo-card-hover min-w-0">
         <div className="flex items-center justify-between mb-3 gap-2">
-          <span className="text-xs font-black uppercase tracking-wider text-black bg-white px-2 py-0.5 border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] truncate">
+          <span className="text-xs font-semibold uppercase tracking-wider text-black bg-white px-2 py-0.5 border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] truncate">
             Transactions
           </span>
           <div className="w-9 h-9 bg-black text-white flex items-center justify-center rounded border-2 border-black flex-shrink-0">
@@ -56,10 +56,10 @@ export function SummaryCards({ summary, loading }: SummaryCardsProps) {
           </div>
         </div>
         <div>
-          <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight truncate">
+          <div className="text-3xl sm:text-4xl font-extrabold text-black tracking-tight truncate">
             {loading ? <span className="opacity-40 animate-pulse">--</span> : count}
           </div>
-          <p className="text-xs font-bold text-neutral-800 mt-1">
+          <p className="text-xs font-normal text-neutral-700 mt-1">
             Total logged expense count
           </p>
         </div>
@@ -68,7 +68,7 @@ export function SummaryCards({ summary, loading }: SummaryCardsProps) {
       {/* Card 3: Average Amount */}
       <div className="neo-card bg-[#BAE6FD] p-4 sm:p-5 lg:p-6 flex flex-col justify-between neo-card-hover min-w-0">
         <div className="flex items-center justify-between mb-3 gap-2">
-          <span className="text-xs font-black uppercase tracking-wider text-black bg-white px-2 py-0.5 border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] truncate">
+          <span className="text-xs font-semibold uppercase tracking-wider text-black bg-white px-2 py-0.5 border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] truncate">
             Average Expense
           </span>
           <div className="w-9 h-9 bg-black text-white flex items-center justify-center rounded border-2 border-black flex-shrink-0">
@@ -76,10 +76,10 @@ export function SummaryCards({ summary, loading }: SummaryCardsProps) {
           </div>
         </div>
         <div>
-          <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-tight truncate">
+          <div className="text-3xl sm:text-4xl font-extrabold text-black tracking-tight truncate">
             {loading ? <span className="opacity-40 animate-pulse">$---.--</span> : average}
           </div>
-          <p className="text-xs font-bold text-neutral-800 mt-1">
+          <p className="text-xs font-normal text-neutral-700 mt-1">
             Average spent per transaction
           </p>
         </div>

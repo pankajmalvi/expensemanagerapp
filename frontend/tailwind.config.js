@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["var(--font-sans)", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+      },
       boxShadow: {
         'neobrutal-sm': '2px 2px 0px 0px #000',
         'neobrutal': '4px 4px 0px 0px #000',

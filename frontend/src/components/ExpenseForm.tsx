@@ -84,8 +84,8 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
             <Receipt className="w-5 h-5 text-black stroke-[2.5]" />
           </div>
           <div>
-            <h2 className="text-base sm:text-lg font-black text-black tracking-tight">Add Expense</h2>
-            <p className="text-xs font-bold text-neutral-600">
+            <h2 className="text-base sm:text-lg font-bold text-black tracking-tight">Add Expense</h2>
+            <p className="text-xs font-normal text-neutral-600">
               Record a new payment under a category
             </p>
           </div>
@@ -95,9 +95,11 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
         {!hasCategories && (
           <div className="mb-4 p-3 bg-[#FEF08A] border-2 border-black rounded-lg shadow-[2px_2px_0px_0px_#000] flex items-start gap-2">
             <AlertTriangle className="w-5 h-5 text-black stroke-[2.5] flex-shrink-0 mt-0.5" />
-            <div className="text-xs font-bold text-black">
-              <span className="font-black uppercase tracking-wider block">Category Required:</span>
-              You must have at least one category before adding an expense. Please add a category on the left first.
+            <div className="text-xs text-black">
+              <span className="font-bold uppercase tracking-wider block">Category Required:</span>
+              <p className="font-medium text-neutral-800 mt-0.5">
+                You must have at least one category before adding an expense. Please add a category on the left first.
+              </p>
             </div>
           </div>
         )}
@@ -106,7 +108,7 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
         <form onSubmit={handleSubmit} className="space-y-3.5">
           {/* Title Input */}
           <div>
-            <label htmlFor="expense-title" className="block text-xs font-black uppercase tracking-wider text-black mb-1">
+            <label htmlFor="expense-title" className="block text-xs font-semibold uppercase tracking-wider text-neutral-800 mb-1.5">
               Title <span className="text-red-500">*</span>
             </label>
             <input
@@ -120,14 +122,14 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
               placeholder="e.g., Grocery shopping, Team lunch, Gas"
               disabled={loading || !hasCategories}
               maxLength={80}
-              className="neo-input text-sm disabled:opacity-50 disabled:bg-neutral-100 min-w-0"
+              className="neo-input text-sm disabled:opacity-50 disabled:bg-neutral-100 min-w-0 font-medium"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {/* Amount Input */}
             <div>
-              <label htmlFor="expense-amount" className="block text-xs font-black uppercase tracking-wider text-black mb-1">
+              <label htmlFor="expense-amount" className="block text-xs font-semibold uppercase tracking-wider text-neutral-800 mb-1.5">
                 Amount ($) <span className="text-red-500">*</span>
               </label>
               <input
@@ -142,13 +144,13 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
                 }}
                 placeholder="0.00"
                 disabled={loading || !hasCategories}
-                className="neo-input text-sm disabled:opacity-50 disabled:bg-neutral-100 min-w-0"
+                className="neo-input text-sm disabled:opacity-50 disabled:bg-neutral-100 min-w-0 font-medium"
               />
             </div>
 
             {/* Category Select Dropdown */}
             <div>
-              <label htmlFor="expense-category" className="block text-xs font-black uppercase tracking-wider text-black mb-1">
+              <label htmlFor="expense-category" className="block text-xs font-semibold uppercase tracking-wider text-neutral-800 mb-1.5">
                 Category <span className="text-red-500">*</span>
               </label>
               <select
@@ -159,7 +161,7 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
                   if (error) setError(null);
                 }}
                 disabled={loading || !hasCategories}
-                className="neo-input text-sm font-bold disabled:opacity-50 disabled:bg-neutral-100 min-w-0"
+                className="neo-input text-sm font-medium disabled:opacity-50 disabled:bg-neutral-100 min-w-0"
               >
                 <option value="">Select a category</option>
                 {categories.map((cat) => (
@@ -173,14 +175,14 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
 
           {/* Validation Messages */}
           {error && (
-            <div className="flex items-center gap-2 p-2.5 bg-[#FECDD3] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-bold text-black animate-fadeIn">
+            <div className="flex items-center gap-2 p-2.5 bg-[#FECDD3] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-medium text-black animate-fadeIn">
               <AlertCircle className="w-4 h-4 flex-shrink-0 stroke-[2.5]" />
               <span className="break-words">{error}</span>
             </div>
           )}
 
           {success && (
-            <div className="flex items-center gap-2 p-2.5 bg-[#BBF7D0] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-bold text-black animate-fadeIn">
+            <div className="flex items-center gap-2 p-2.5 bg-[#BBF7D0] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-medium text-black animate-fadeIn">
               <CheckCircle2 className="w-4 h-4 flex-shrink-0 stroke-[2.5]" />
               <span className="break-words">{success}</span>
             </div>
@@ -191,9 +193,9 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
             <button
               type="submit"
               disabled={loading || !hasCategories || !title.trim() || !amount || !categoryId}
-              className="neo-btn w-full bg-[#4EFA94] hover:bg-emerald-400 text-black py-2.5 px-4 text-sm font-black uppercase tracking-wider"
+              className="neo-btn w-full bg-[#4EFA94] hover:bg-emerald-400 text-black py-2.5 px-4 text-sm font-bold uppercase tracking-wider"
             >
-              <Plus className="w-4 h-4 mr-1.5 stroke-[3]" />
+              <Plus className="w-4 h-4 mr-1.5 stroke-[2.5]" />
               <span>{loading ? "Adding Expense..." : "Add Expense"}</span>
             </button>
           </div>

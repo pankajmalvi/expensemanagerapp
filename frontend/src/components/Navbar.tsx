@@ -31,14 +31,14 @@ export function Navbar({ onRefresh, isRefreshing = false }: NavbarProps) {
             </div>
             <div>
               <div className="flex items-center gap-1.5 leading-none">
-                <span className="font-black text-lg sm:text-xl tracking-tight text-black inline-flex items-center">
+                <span className="font-extrabold text-lg sm:text-xl tracking-tight text-black inline-flex items-center">
                   EXPENSE
-                  <span className="bg-[#4EFA94] px-1.5 py-0.5 ml-1 border-2 border-black rounded text-xs sm:text-sm font-black shadow-[2px_2px_0px_0px_#000] inline-block leading-tight">
+                  <span className="bg-[#4EFA94] px-1.5 py-0.5 ml-1 border-2 border-black rounded text-xs sm:text-sm font-bold shadow-[2px_2px_0px_0px_#000] inline-block leading-tight">
                     FLOW
                   </span>
                 </span>
               </div>
-              <p className="text-[11px] sm:text-xs font-bold text-neutral-600 mt-1">
+              <p className="text-xs font-medium text-neutral-600 mt-1">
                 Personal Expense & Category Manager
               </p>
             </div>
@@ -60,24 +60,24 @@ export function Navbar({ onRefresh, isRefreshing = false }: NavbarProps) {
         </div>
 
         {/* Action Buttons & Links */}
-        <div className="flex items-center justify-center sm:justify-end w-full md:w-auto gap-2 sm:gap-2.5 text-xs font-black">
+        <div className="flex items-center justify-center sm:justify-end w-full md:w-auto gap-2 sm:gap-2.5 text-xs">
           {/* API Docs Preview Link */}
           <a
             href="http://localhost:8000/docs"
             target="_blank"
             rel="noopener noreferrer"
-            className="neo-btn bg-white hover:bg-neutral-100 text-black px-2.5 sm:px-3 py-1.5 text-xs font-bold inline-flex items-center gap-1 shadow-[2px_2px_0px_0px_#000] flex-1 sm:flex-initial justify-center"
+            className="neo-btn bg-white hover:bg-neutral-100 text-black px-2.5 sm:px-3 py-1.5 font-semibold inline-flex items-center gap-1 shadow-[2px_2px_0px_0px_#000] flex-1 sm:flex-initial justify-center"
             title="Open Interactive Swagger API Docs"
           >
             <span>Docs</span>
-            <ExternalLink className="w-3 h-3 stroke-[2.5]" />
+            <ExternalLink className="w-3.5 h-3.5" />
           </a>
 
           {/* Quick Add Category CTA */}
           <button
             type="button"
             onClick={() => scrollTo("category-section")}
-            className="neo-btn bg-[#E9D5FF] hover:bg-purple-200 text-black px-2.5 sm:px-3 py-1.5 text-xs shadow-[2px_2px_0px_0px_#000] flex-1 sm:flex-initial justify-center inline-flex items-center gap-1"
+            className="neo-btn bg-[#E9D5FF] hover:bg-purple-200 text-black px-2.5 sm:px-3 py-1.5 font-semibold shadow-[2px_2px_0px_0px_#000] flex-1 sm:flex-initial justify-center inline-flex items-center gap-1"
             title="Jump to Add Category"
           >
             <Tag className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -88,10 +88,10 @@ export function Navbar({ onRefresh, isRefreshing = false }: NavbarProps) {
           <button
             type="button"
             onClick={() => scrollTo("expense-form")}
-            className="neo-btn bg-[#4EFA94] hover:bg-emerald-300 text-black px-3 sm:px-3.5 py-1.5 text-xs shadow-[2px_2px_0px_0px_#000] flex-1 sm:flex-initial justify-center inline-flex items-center gap-1"
+            className="neo-btn bg-[#4EFA94] hover:bg-emerald-300 text-black px-3 sm:px-3.5 py-1.5 font-bold shadow-[2px_2px_0px_0px_#000] flex-1 sm:flex-initial justify-center inline-flex items-center gap-1"
             title="Jump to Record Expense"
           >
-            <Plus className="w-3.5 h-3.5 stroke-[3]" />
+            <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
             <span>+ Expense</span>
           </button>
 
@@ -101,7 +101,7 @@ export function Navbar({ onRefresh, isRefreshing = false }: NavbarProps) {
               type="button"
               onClick={() => onRefresh()}
               disabled={isRefreshing}
-              className="hidden md:inline-flex neo-btn bg-white hover:bg-neutral-100 text-black px-3 py-1.5 text-xs shadow-[2px_2px_0px_0px_#000] items-center gap-1.5 flex-shrink-0"
+              className="hidden md:inline-flex neo-btn bg-white hover:bg-neutral-100 text-black px-3 py-1.5 font-semibold shadow-[2px_2px_0px_0px_#000] items-center gap-1.5 flex-shrink-0"
               title="Refresh and sync data"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin" : ""}`} />

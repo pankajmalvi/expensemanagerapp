@@ -6,6 +6,7 @@ import { SummaryCards } from "@/components/SummaryCards";
 import { CategorySection } from "@/components/CategorySection";
 import { ExpenseForm } from "@/components/ExpenseForm";
 import { ExpenseList } from "@/components/ExpenseList";
+import { LinkPreviewCard } from "@/components/LinkPreviewCard";
 import { Footer } from "@/components/Footer";
 import { CategorySummary, Expense, Summary } from "@/lib/types";
 import { fetchCategories, fetchExpenses, fetchSummary } from "@/lib/api";
@@ -59,13 +60,13 @@ export default function Home() {
                 <AlertCircle className="w-5 h-5 stroke-[2.5]" />
               </div>
               <div>
-                <h4 className="text-sm font-black text-black">Service Offline</h4>
-                <p className="text-xs font-bold text-neutral-800">{errorBanner}</p>
+                <h4 className="text-sm font-bold text-black">Service Offline</h4>
+                <p className="text-xs font-normal text-neutral-800">{errorBanner}</p>
               </div>
             </div>
             <button
               onClick={() => loadData(true)}
-              className="neo-btn bg-white hover:bg-neutral-100 px-3 py-1.5 text-xs text-black whitespace-nowrap self-end sm:self-auto"
+              className="neo-btn bg-white hover:bg-neutral-100 px-3 py-1.5 text-xs text-black whitespace-nowrap self-end sm:self-auto font-semibold"
             >
               <RefreshCw className={`w-3.5 h-3.5 mr-1.5 ${refreshing ? "animate-spin" : ""}`} />
               <span>Retry Connection</span>
@@ -76,10 +77,10 @@ export default function Home() {
         {/* Dashboard Title & Subtitle */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-3 border-b-[3px] border-black">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black text-black tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-black tracking-tight">
               Expense Overview
             </h1>
-            <p className="text-xs sm:text-sm font-bold text-neutral-600 mt-1">
+            <p className="text-xs sm:text-sm font-normal text-neutral-600 mt-1">
               Classify expenses, manage category budgets, and monitor your personal cashflow.
             </p>
           </div>
@@ -113,6 +114,46 @@ export default function Home() {
         {/* 3. Bottom Row: Expense List Ledger */}
         <section id="expense-ledger">
           <ExpenseList expenses={expenses} loading={loading} />
+        </section>
+
+        {/* 4. Verified API & Specs Link Previews */}
+        <section id="api-previews" className="space-y-4 pt-4 border-t-2 border-black">
+          <div className="flex items-center justify-between pb-1">
+            <div>
+              <h2 className="text-base sm:text-lg font-bold text-black tracking-tight">
+                Verified API & System Resources
+              </h2>
+              <p className="text-xs font-normal text-neutral-600">
+                Official backend documentation and developer endpoints for ExpenseFlow
+              </p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <LinkPreviewCard
+              title="Interactive Swagger UI"
+              url="http://localhost:8000/docs"
+              description="Test endpoints live, inspect request schemas, and verify response models directly in Swagger UI."
+              badgeText="FastAPI OpenAPI"
+              badgeBg="#FEF08A"
+              type="swagger"
+            />
+            <LinkPreviewCard
+              title="ReDoc Reference"
+              url="http://localhost:8000/redoc"
+              description="Explore comprehensive, beautifully organized REST endpoint specs and database models."
+              badgeText="ReDoc Spec"
+              badgeBg="#BAE6FD"
+              type="redoc"
+            />
+            <LinkPreviewCard
+              title="Backend Health Probe"
+              url="http://localhost:8000/"
+              description="Direct server health check endpoint confirming SQLite connectivity and API uptime."
+              badgeText="Health Endpoint"
+              badgeBg="#BBF7D0"
+              type="health"
+            />
+          </div>
         </section>
       </main>
 
