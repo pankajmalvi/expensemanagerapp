@@ -21,3 +21,4 @@ All Git operations must follow the policies defined in `.agents/rules/git-workfl
 - Atomic, logical commits using Conventional Commits format: `<type>(<scope>): <description>`.
 - Types: `feat`, `fix`, `test`, `docs`, `refactor`, `chore`.
 - Never commit virtualenvs, node_modules, `.env`, or SQLite DB files.
+

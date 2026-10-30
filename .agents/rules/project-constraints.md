@@ -32,3 +32,4 @@ These rules enforce the mandatory requirements and constraints specified in `Int
 6. **Scope Discipline (Zero Over-Engineering)**:
    - Stay strictly within the requirements outlined in `SPEC.md` and the PRD.
    - Do NOT introduce authentication, user sessions, complex permissions, external billing services, pagination, or multi-currency conversions unless explicitly requested by the user.
+

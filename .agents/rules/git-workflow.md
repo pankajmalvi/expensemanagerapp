@@ -23,3 +23,4 @@ All commit messages must follow the **Conventional Commits** specification:
 ### Content Requirements:
 - Title line: imperative mood, lowercase, no trailing period, maximum 72 characters.
 - Body (when appropriate): explain *what* was changed and *why*, highlighting any non-obvious design choices.
+
