@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { CategorySummary } from "@/lib/types";
 import { createCategory } from "@/lib/api";
 import { Tag, Plus, AlertCircle, CheckCircle2 } from "lucide-react";
@@ -15,29 +15,31 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Button is disabled when there is no text, and enabled as soon as text is typed
+  const hasText = name.trim().length > 0;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!hasText || loading) return;
+
     setError(null);
     setSuccess(null);
 
     const trimmed = name.trim();
 
-    // Frontend Check 1: Non-empty validation
+    // Frontend Check: Non-empty validation
     if (!trimmed) {
-      setError("Please enter a category name.");
-      inputRef.current?.focus();
+      setError("Category name cannot be empty or whitespace only.");
       return;
     }
 
-    // Frontend Check 2: Case-insensitive duplicate prevention
+    // Frontend Check: Case-insensitive duplicate prevention
     const exists = categories.some(
       (c) => c.name.trim().toLowerCase() === trimmed.toLowerCase()
     );
     if (exists) {
       setError(`Category "${trimmed}" already exists.`);
-      inputRef.current?.focus();
       return;
     }
 
@@ -80,7 +82,6 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
             </label>
             <div className="flex gap-2">
               <input
-                ref={inputRef}
                 id="category-name"
                 type="text"
                 value={name}
@@ -92,14 +93,19 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
                 maxLength={40}
                 className="neo-input flex-1 min-w-0 text-xs sm:text-sm"
                 disabled={loading}
+                autoComplete="off"
               />
               <button
                 type="submit"
-                disabled={loading}
-                className="neo-btn bg-[#FEF08A] hover:bg-yellow-300 active:bg-yellow-400 text-black px-3 sm:px-4 py-2 text-xs sm:text-sm whitespace-nowrap flex-shrink-0 cursor-pointer"
-                title="Add Category"
+                disabled={!hasText || loading}
+                className={`px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-black whitespace-nowrap flex-shrink-0 transition-all flex items-center justify-center gap-1 rounded-lg ${
+                  !hasText || loading
+                    ? "bg-neutral-200 text-neutral-400 border-2 border-neutral-300 shadow-none cursor-not-allowed opacity-60"
+                    : "neo-btn bg-[#FEF08A] hover:bg-yellow-300 text-black cursor-pointer shadow-[2px_2px_0px_0px_#000] active:translate-x-[2px] active:translate-y-[2px]"
+                }`}
+                title={!hasText ? "Type a category name to enable" : "Add category"}
               >
-                <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1 stroke-[3]" />
+                <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[3]" />
                 <span>{loading ? "Adding..." : "Add"}</span>
               </button>
             </div>

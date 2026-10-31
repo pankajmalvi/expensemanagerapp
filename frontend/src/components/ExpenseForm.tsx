@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { CategorySummary, ExpenseCreatePayload } from "@/lib/types";
 import { createExpense } from "@/lib/api";
 import { Receipt, AlertCircle, CheckCircle2, AlertTriangle, Plus, Ban } from "lucide-react";
@@ -17,10 +17,6 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-
-  const titleInputRef = useRef<HTMLInputElement>(null);
-  const amountInputRef = useRef<HTMLInputElement>(null);
-  const categorySelectRef = useRef<HTMLSelectElement>(null);
 
   const hasCategories = categories.length > 0;
 
@@ -39,15 +35,13 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
     // Frontend Check 2: Non-empty title constraint
     if (!trimmedTitle) {
       setError("Expense title cannot be empty.");
-      titleInputRef.current?.focus();
       return;
     }
 
     const parsedAmount = parseFloat(amount);
     // Frontend Check 3: Positive amount constraint
     if (isNaN(parsedAmount) || parsedAmount <= 0) {
-      setError("Amount must be a valid number greater than $0.00.");
-      amountInputRef.current?.focus();
+      setError("Amount must be greater than $0.00.");
       return;
     }
 
@@ -55,7 +49,6 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
     const parsedCategoryId = parseInt(categoryId, 10);
     if (isNaN(parsedCategoryId) || parsedCategoryId <= 0) {
       setError("Please select a category.");
-      categorySelectRef.current?.focus();
       return;
     }
 
@@ -117,7 +110,6 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
               Title <span className="text-red-500">*</span>
             </label>
             <input
-              ref={titleInputRef}
               id="expense-title"
               type="text"
               value={title}
@@ -139,7 +131,6 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
                 Amount ($) <span className="text-red-500">*</span>
               </label>
               <input
-                ref={amountInputRef}
                 id="expense-amount"
                 type="number"
                 step="0.01"
@@ -161,7 +152,6 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
                 Category <span className="text-red-500">*</span>
               </label>
               <select
-                ref={categorySelectRef}
                 id="expense-category"
                 value={categoryId}
                 onChange={(e) => {
@@ -200,11 +190,11 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
           <div className="pt-1">
             <button
               type="submit"
-              disabled={!hasCategories || loading}
+              disabled={!hasCategories || loading || !title.trim() || !amount || !categoryId}
               className={`w-full py-2.5 px-4 text-xs sm:text-sm font-black uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
                 !hasCategories
                   ? "bg-neutral-200 text-neutral-500 border-2 border-neutral-400 rounded-lg cursor-not-allowed opacity-70"
-                  : "neo-btn bg-[#4EFA94] hover:bg-emerald-400 active:bg-emerald-500 text-black cursor-pointer"
+                  : "neo-btn bg-[#4EFA94] hover:bg-emerald-400 text-black cursor-pointer"
               }`}
             >
               {!hasCategories ? (
