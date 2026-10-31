@@ -76,7 +76,7 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
   };
 
   return (
-    <div className="neo-card p-4 sm:p-5 lg:p-6 bg-white flex flex-col justify-between h-full">
+    <div className="neo-card p-4 sm:p-6 bg-white flex flex-col justify-between h-full">
       <div>
         {/* Header */}
         <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-black">
@@ -85,7 +85,7 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
           </div>
           <div>
             <h2 className="text-base sm:text-lg font-black text-black tracking-tight">Add Expense</h2>
-            <p className="text-[11px] sm:text-xs font-bold text-neutral-600">
+            <p className="text-[11px] sm:text-xs font-semibold text-neutral-600">
               Record a new payment under a category
             </p>
           </div>
@@ -93,17 +93,17 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
 
         {/* Empty Category Prerequisite Warning */}
         {!hasCategories && (
-          <div className="mb-4 p-2.5 sm:p-3 bg-[#FEF08A] border-2 border-black rounded-lg shadow-[2px_2px_0px_0px_#000] flex items-start gap-2">
+          <div className="mb-4 p-3 bg-[#FEF08A] border-2 border-black rounded-lg shadow-[2px_2px_0px_0px_#000] flex items-start gap-2">
             <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-black stroke-[2.5] flex-shrink-0 mt-0.5" />
-            <div className="text-[11px] sm:text-xs font-bold text-black leading-snug">
-              <span className="font-black uppercase tracking-wider block">Category Required:</span>
+            <div className="text-xs font-bold text-black leading-snug">
+              <span className="font-black uppercase tracking-wider block mb-0.5">Category Required:</span>
               You must have at least one category before adding an expense. Please add a category on the left first.
             </div>
           </div>
         )}
 
         {/* Expense Form */}
-        <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-3.5">
+        <form onSubmit={handleSubmit} className="space-y-3.5">
           {/* Title Input */}
           <div>
             <label htmlFor="expense-title" className="block text-[11px] sm:text-xs font-black uppercase tracking-wider text-black mb-1">
@@ -124,7 +124,7 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {/* Amount Input */}
             <div>
               <label htmlFor="expense-amount" className="block text-[11px] sm:text-xs font-black uppercase tracking-wider text-black mb-1">
@@ -173,16 +173,16 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
 
           {/* Validation Messages */}
           {error && (
-            <div className="flex items-center gap-2 p-2 sm:p-2.5 bg-[#FECDD3] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-bold text-black animate-fadeIn">
+            <div className="flex items-center gap-2 p-2.5 bg-[#FECDD3] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-bold text-black animate-fadeIn">
               <AlertCircle className="w-4 h-4 flex-shrink-0 stroke-[2.5]" />
-              <span className="break-words">{error}</span>
+              <span>{error}</span>
             </div>
           )}
 
           {success && (
-            <div className="flex items-center gap-2 p-2 sm:p-2.5 bg-[#BBF7D0] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-bold text-black animate-fadeIn">
+            <div className="flex items-center gap-2 p-2.5 bg-[#BBF7D0] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-bold text-black animate-fadeIn">
               <CheckCircle2 className="w-4 h-4 flex-shrink-0 stroke-[2.5]" />
-              <span className="break-words">{success}</span>
+              <span>{success}</span>
             </div>
           )}
 

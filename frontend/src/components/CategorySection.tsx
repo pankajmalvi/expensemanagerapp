@@ -54,7 +54,7 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
   };
 
   return (
-    <div className="neo-card p-4 sm:p-5 lg:p-6 bg-white flex flex-col justify-between h-full">
+    <div className="neo-card p-4 sm:p-6 bg-white flex flex-col justify-between h-full">
       <div>
         {/* Header */}
         <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-black">
@@ -63,14 +63,14 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
           </div>
           <div>
             <h2 className="text-base sm:text-lg font-black text-black tracking-tight">Categories</h2>
-            <p className="text-[11px] sm:text-xs font-bold text-neutral-600">
+            <p className="text-[11px] sm:text-xs font-semibold text-neutral-600">
               Organize your expenses into distinct buckets
             </p>
           </div>
         </div>
 
         {/* Create Category Form */}
-        <form onSubmit={handleSubmit} className="mb-4 sm:mb-5 space-y-3">
+        <form onSubmit={handleSubmit} className="mb-5 space-y-3">
           <div>
             <label htmlFor="category-name" className="block text-[11px] sm:text-xs font-black uppercase tracking-wider text-black mb-1">
               New Category Name
@@ -86,13 +86,13 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
                 }}
                 placeholder="e.g., Food, Transport, Rent"
                 maxLength={40}
-                className="neo-input text-xs sm:text-sm flex-1 min-w-0"
+                className="neo-input flex-1 min-w-0 text-xs sm:text-sm"
                 disabled={loading}
               />
               <button
                 type="submit"
                 disabled={loading || !name.trim()}
-                className="neo-btn bg-[#FEF08A] hover:bg-yellow-300 text-black px-3 sm:px-4 py-2 text-xs sm:text-sm font-black whitespace-nowrap flex-shrink-0"
+                className="neo-btn bg-[#FEF08A] hover:bg-yellow-300 text-black px-3 sm:px-4 py-2 text-xs sm:text-sm whitespace-nowrap flex-shrink-0"
               >
                 <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1 stroke-[3]" />
                 <span>{loading ? "Adding..." : "Add"}</span>
@@ -102,16 +102,16 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
 
           {/* Validation Feedback */}
           {error && (
-            <div className="flex items-center gap-2 p-2 sm:p-2.5 bg-[#FECDD3] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-bold text-black animate-fadeIn">
+            <div className="flex items-center gap-2 p-2.5 bg-[#FECDD3] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-bold text-black animate-fadeIn">
               <AlertCircle className="w-4 h-4 flex-shrink-0 stroke-[2.5]" />
-              <span className="break-words">{error}</span>
+              <span>{error}</span>
             </div>
           )}
 
           {success && (
-            <div className="flex items-center gap-2 p-2 sm:p-2.5 bg-[#BBF7D0] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-bold text-black animate-fadeIn">
+            <div className="flex items-center gap-2 p-2.5 bg-[#BBF7D0] border-2 border-black rounded shadow-[2px_2px_0px_0px_#000] text-xs font-bold text-black animate-fadeIn">
               <CheckCircle2 className="w-4 h-4 flex-shrink-0 stroke-[2.5]" />
-              <span className="break-words">{success}</span>
+              <span>{success}</span>
             </div>
           )}
         </form>
@@ -125,21 +125,21 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
           </div>
 
           {categories.length === 0 ? (
-            <div className="p-3 sm:p-4 border-2 border-dashed border-neutral-400 rounded-lg text-center bg-[#FAF9F6]">
-              <p className="text-xs font-bold text-neutral-600">
+            <div className="p-3.5 sm:p-4 border-2 border-dashed border-neutral-400 rounded-lg text-center bg-[#FAF9F6]">
+              <p className="text-xs font-semibold text-neutral-600">
                 No categories yet. Add your first category above to begin logging expenses!
               </p>
             </div>
           ) : (
-            <div className="flex flex-wrap gap-1.5 sm:gap-2 max-h-44 sm:max-h-48 overflow-y-auto pr-1">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2 max-h-48 overflow-y-auto pr-1">
               {categories.map((cat) => (
                 <div
                   key={cat.id}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#FAF9F6] border-2 border-black rounded-lg shadow-[2px_2px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] transition-all max-w-full"
+                  className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-[#FAF9F6] border-2 border-black rounded-lg shadow-[2px_2px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] transition-all"
                 >
-                  <span className="text-xs font-black text-black truncate max-w-[130px] sm:max-w-[180px]">{cat.name}</span>
-                  <span className="px-1.5 py-0.5 bg-[#FEF08A] border border-black rounded text-[10px] font-black text-black flex-shrink-0">
-                    {cat.total_expenses}
+                  <span className="text-xs font-black text-black">{cat.name}</span>
+                  <span className="px-1.5 py-0.5 bg-[#FEF08A] border border-black rounded text-[10px] font-extrabold text-black">
+                    {cat.total_expenses} {cat.total_expenses === 1 ? "expense" : "expenses"}
                   </span>
                 </div>
               ))}

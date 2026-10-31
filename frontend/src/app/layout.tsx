@@ -2,41 +2,22 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("http://localhost:3000"),
-  title: {
-    default: "ExpenseFlow | Personal Expense & Category Manager",
-    template: "%s | ExpenseFlow",
-  },
-  description:
-    "Organize personal finances, categorize expenses, track spending, and inspect instant budget summaries.",
+  title: "ExpenseFlow | Personal Expense Manager",
+  description: "Track your expenses, organize spending by category, and manage your personal budget effortlessly.",
   applicationName: "ExpenseFlow",
-  authors: [{ name: "ExpenseFlow Team" }],
-  keywords: [
-    "expense manager",
-    "personal finance",
-    "budget tracker",
-    "category management",
-    "spending log",
-  ],
-  icons: {
-    icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
-    ],
-  },
+  keywords: ["expense manager", "budget tracker", "personal finance", "spending tracker", "category manager"],
+  authors: [{ name: "ExpenseFlow" }],
   openGraph: {
-    title: "ExpenseFlow — Personal Expense & Category Manager",
-    description:
-      "Effortlessly track expenses, manage budgets by category, and visualize your financial health with instant summaries.",
-    url: "http://localhost:3000",
+    title: "ExpenseFlow | Personal Expense Manager",
+    description: "Track your expenses, organize spending by category, and manage your personal budget effortlessly.",
     siteName: "ExpenseFlow",
-    locale: "en_US",
     type: "website",
+    locale: "en_US",
   },
   twitter: {
     card: "summary",
-    title: "ExpenseFlow — Personal Expense & Category Manager",
-    description:
-      "Effortlessly track expenses, manage budgets by category, and visualize your financial health.",
+    title: "ExpenseFlow | Personal Expense Manager",
+    description: "Track your expenses, organize spending by category, and manage your personal budget effortlessly.",
   },
 };
 
@@ -46,8 +27,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="antialiased bg-[#FAF9F6] text-black">
+    <html lang="en" className="scroll-smooth">
+      <body className="antialiased bg-[#FAF9F6] text-black min-h-screen">
         {children}
       </body>
     </html>

@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, Home, FileQuestion } from "lucide-react";
+import { ArrowLeft, Home, FileQuestion, Wallet } from "lucide-react";
 
 export default function NotFound() {
   return (
@@ -8,8 +8,11 @@ export default function NotFound() {
       {/* Top Bar */}
       <header className="max-w-4xl w-full mx-auto flex items-center justify-between pb-4 sm:pb-6 border-b-2 border-black">
         <div className="flex items-center gap-2">
-          <span className="font-black text-base sm:text-lg tracking-tight text-black">
-            EXPENSE<span className="bg-[#4EFA94] px-1.5 py-0.5 ml-1 border-2 border-black rounded text-xs font-black shadow-[1.5px_1.5px_0px_0px_#000]">FLOW</span>
+          <div className="w-8 h-8 bg-[#FEF08A] border-2 border-black rounded flex items-center justify-center">
+            <Wallet className="w-4 h-4 text-black stroke-[2.5]" />
+          </div>
+          <span className="font-black text-lg tracking-tight text-black">
+            Expense<span className="text-emerald-700">Flow</span>
           </span>
         </div>
         <Link
@@ -21,7 +24,7 @@ export default function NotFound() {
         </Link>
       </header>
 
-      {/* Main 404 Hero Card */}
+      {/* Main 404 Card */}
       <main className="max-w-md w-full mx-auto my-12">
         <div className="neo-card p-6 sm:p-8 bg-white text-center space-y-5">
           <div className="inline-block mx-auto">
@@ -55,8 +58,8 @@ export default function NotFound() {
       </main>
 
       {/* Footer */}
-      <footer className="text-center text-xs text-neutral-500 font-bold py-4">
-        © 2026 ExpenseFlow. All rights reserved.
+      <footer className="text-center text-xs text-neutral-500 font-semibold py-4">
+        © {new Date().getFullYear()} ExpenseFlow. All rights reserved.
       </footer>
     </div>
   );
