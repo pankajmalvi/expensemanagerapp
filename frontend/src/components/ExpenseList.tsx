@@ -54,21 +54,17 @@ export function ExpenseList({ expenses, loading }: ExpenseListProps) {
         </div>
       </div>
 
-      {/* Content */}
-      {loading ? (
-        <div className="py-10 text-center">
-          <div className="inline-block p-4 bg-[#FAF9F6] border-2 border-black rounded-lg shadow-[2px_2px_0px_0px_#000] animate-pulse">
-            <p className="text-xs sm:text-sm font-black text-black">Loading expenses...</p>
-          </div>
-        </div>
-      ) : expenses.length === 0 ? (
+      {/* Content: Clear message when no expenses instead of loading skeleton */}
+      {expenses.length === 0 ? (
         <div className="py-10 sm:py-12 px-4 text-center border-2 border-dashed border-neutral-400 rounded-xl bg-[#FAF9F6]">
           <div className="w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-3 bg-[#E9D5FF] border-2 border-black rounded-xl shadow-[3px_3px_0px_0px_#000] flex items-center justify-center">
             <Inbox className="w-6 h-6 sm:w-7 sm:h-7 text-black stroke-[2.5]" />
           </div>
-          <h3 className="text-sm sm:text-base font-black text-black mb-1">No Transactions Recorded Yet</h3>
+          <h3 className="text-sm sm:text-base font-black text-black mb-1">No Expenses Recorded Yet</h3>
           <p className="text-xs font-semibold text-neutral-600 max-w-sm mx-auto">
-            Your expense ledger is currently empty. Use the Add Expense form above to record your first transaction!
+            {loading
+              ? "Checking for expenses..."
+              : "You haven't logged any expenses yet. Once you add an expense using the form above, it will appear here."}
           </p>
         </div>
       ) : (

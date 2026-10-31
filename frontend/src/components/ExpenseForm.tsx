@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { CategorySummary, ExpenseCreatePayload } from "@/lib/types";
 import { createExpense } from "@/lib/api";
-import { Receipt, AlertCircle, CheckCircle2, AlertTriangle, Plus } from "lucide-react";
+import { Receipt, AlertCircle, CheckCircle2, AlertTriangle, Plus, Ban } from "lucide-react";
 
 interface ExpenseFormProps {
   categories: CategorySummary[];
@@ -97,7 +97,7 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
             <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-black stroke-[2.5] flex-shrink-0 mt-0.5" />
             <div className="text-xs font-bold text-black leading-snug">
               <span className="font-black uppercase tracking-wider block mb-0.5">Category Required:</span>
-              You must have at least one category before adding an expense. Please add a category on the left first.
+              No categories exist yet. You must add at least one category before you can record an expense.
             </div>
           </div>
         )}
@@ -120,7 +120,7 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
               placeholder="e.g., Grocery shopping, Team lunch, Gas"
               disabled={loading || !hasCategories}
               maxLength={80}
-              className="neo-input text-xs sm:text-sm disabled:opacity-50 disabled:bg-neutral-100"
+              className="neo-input text-xs sm:text-sm disabled:opacity-50 disabled:bg-neutral-100 disabled:cursor-not-allowed"
             />
           </div>
 
@@ -142,7 +142,7 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
                 }}
                 placeholder="0.00"
                 disabled={loading || !hasCategories}
-                className="neo-input text-xs sm:text-sm disabled:opacity-50 disabled:bg-neutral-100"
+                className="neo-input text-xs sm:text-sm disabled:opacity-50 disabled:bg-neutral-100 disabled:cursor-not-allowed"
               />
             </div>
 
@@ -159,9 +159,9 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
                   if (error) setError(null);
                 }}
                 disabled={loading || !hasCategories}
-                className="neo-input text-xs sm:text-sm font-bold disabled:opacity-50 disabled:bg-neutral-100"
+                className="neo-input text-xs sm:text-sm font-bold disabled:opacity-50 disabled:bg-neutral-100 disabled:cursor-not-allowed"
               >
-                <option value="">Select a category</option>
+                <option value="">{hasCategories ? "Select a category" : "No categories available"}</option>
                 {categories.map((cat) => (
                   <option key={cat.id} value={cat.id}>
                     {cat.name}
@@ -186,15 +186,30 @@ export function ExpenseForm({ categories, onExpenseAdded }: ExpenseFormProps) {
             </div>
           )}
 
-          {/* Submit Button */}
+          {/* Submit Button: strictly disabled whenever !hasCategories */}
           <div className="pt-1">
             <button
               type="submit"
-              disabled={loading || !hasCategories || !title.trim() || !amount || !categoryId}
-              className="neo-btn w-full bg-[#4EFA94] hover:bg-emerald-400 text-black py-2.5 px-4 text-xs sm:text-sm font-black uppercase tracking-wider"
+              disabled={!hasCategories || loading || !title.trim() || !amount || !categoryId}
+              className={`w-full py-2.5 px-4 text-xs sm:text-sm font-black uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
+                !hasCategories
+                  ? "bg-neutral-200 text-neutral-500 border-2 border-neutral-400 rounded-lg cursor-not-allowed opacity-70"
+                  : "neo-btn bg-[#4EFA94] hover:bg-emerald-400 text-black cursor-pointer"
+              }`}
             >
-              <Plus className="w-4 h-4 mr-1.5 stroke-[3]" />
-              <span>{loading ? "Adding Expense..." : "Add Expense"}</span>
+              {!hasCategories ? (
+                <>
+                  <Ban className="w-4 h-4 stroke-[2.5]" />
+                  <span>Category Required to Add Expense</span>
+                </>
+              ) : loading ? (
+                <span>Adding Expense...</span>
+              ) : (
+                <>
+                  <Plus className="w-4 h-4 stroke-[3]" />
+                  <span>Add Expense</span>
+                </>
+              )}
             </button>
           </div>
         </form>
