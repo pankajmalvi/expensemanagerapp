@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { CategorySummary } from "@/lib/types";
 import { createCategory } from "@/lib/api";
 import { Tag, Plus, AlertCircle, CheckCircle2 } from "lucide-react";
@@ -15,6 +15,7 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +26,8 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
 
     // Frontend Check 1: Non-empty validation
     if (!trimmed) {
-      setError("Category name cannot be empty or whitespace only.");
+      setError("Please enter a category name.");
+      inputRef.current?.focus();
       return;
     }
 
@@ -35,6 +37,7 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
     );
     if (exists) {
       setError(`Category "${trimmed}" already exists.`);
+      inputRef.current?.focus();
       return;
     }
 
@@ -77,6 +80,7 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
             </label>
             <div className="flex gap-2">
               <input
+                ref={inputRef}
                 id="category-name"
                 type="text"
                 value={name}
@@ -91,8 +95,9 @@ export function CategorySection({ categories, onCategoryAdded }: CategorySection
               />
               <button
                 type="submit"
-                disabled={loading || !name.trim()}
-                className="neo-btn bg-[#FEF08A] hover:bg-yellow-300 text-black px-3 sm:px-4 py-2 text-xs sm:text-sm whitespace-nowrap flex-shrink-0"
+                disabled={loading}
+                className="neo-btn bg-[#FEF08A] hover:bg-yellow-300 active:bg-yellow-400 text-black px-3 sm:px-4 py-2 text-xs sm:text-sm whitespace-nowrap flex-shrink-0 cursor-pointer"
+                title="Add Category"
               >
                 <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1 stroke-[3]" />
                 <span>{loading ? "Adding..." : "Add"}</span>
