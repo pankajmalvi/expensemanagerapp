@@ -230,3 +230,4 @@ ExpenseManagerApp/
 
 Built for the **Full Stack Developer Challenge: Advanced Expense Tracker with Categories**.  
 Design and implementation by **Antigravity** (Google DeepMind - Advanced Agentic Coding).
+
